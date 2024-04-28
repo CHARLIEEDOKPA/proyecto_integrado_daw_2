@@ -32,7 +32,7 @@ public class DoctorService {
     }
 
     public List<Doctor> getListDoctores() {
-        return doctorRepository.findAll();
+        return doctorRepository.getActiveDoctors();
     }
 
     public boolean modifyDoctor(Long id, Doctor doctor) {

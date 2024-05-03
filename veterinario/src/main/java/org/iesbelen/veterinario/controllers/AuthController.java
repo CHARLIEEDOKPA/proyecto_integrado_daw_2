@@ -55,7 +55,7 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponse> test(@RequestBody UserPassword userPassword) {
+    public ResponseEntity<AuthResponse> test(@Valid@RequestBody UserPassword userPassword) {
         return ResponseEntity.ok(credencialesService.login(userPassword));
     }
 
@@ -123,8 +123,9 @@ public class AuthController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         String email = jwtService.getUsernameFromToken(token);
+        boolean isChanged = jwtService.getChangedPasswordFromToken(token);
 
-        if (roles.contains(rol)) {
+        if (roles.contains(rol) && !isChanged) {
             Optional<Credenciales> opt = credencialesService.findCredencialByEmail(email);
             if (opt.isPresent()) {
                 Credenciales credenciales = opt.get();

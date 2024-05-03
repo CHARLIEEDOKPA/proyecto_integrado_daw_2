@@ -53,10 +53,12 @@ public class Mascota {
     @JsonIgnore
     private boolean activo;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_mascota",referencedColumnName = "id")
     private List<Incidencia> incidencias;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_mascota",referencedColumnName = "id")
     private List<Recomendacion> recomendaciones;

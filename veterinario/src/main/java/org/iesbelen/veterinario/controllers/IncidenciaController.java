@@ -31,7 +31,7 @@ public class IncidenciaController {
     private JwtService jwtService;
 
     @PostMapping("add")
-    public ResponseEntity<Incidencia> postMethodName(@RequestBody @Valid IncidenciaRequest incidenciaRequest,
+    public ResponseEntity<Incidencia> addIncidencia(@RequestBody @Valid IncidenciaRequest incidenciaRequest,
             BindingResult bindingResult, @RequestHeader("Authorization") String bearer) {
         
 

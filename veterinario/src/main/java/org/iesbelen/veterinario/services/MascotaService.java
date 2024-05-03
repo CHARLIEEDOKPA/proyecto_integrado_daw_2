@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.iesbelen.veterinario.model.Doctor;
 import org.iesbelen.veterinario.model.Mascota;
 import org.iesbelen.veterinario.repo.MascotaRepository;
+import org.iesbelen.veterinario.requests.MascotaEditRequest;
 import org.iesbelen.veterinario.requests.MascotaRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,32 @@ public class MascotaService {
         int size = doctores.size();
         int random = (int) Math.floor(Math.random() * size);
         return doctores.get(random).getId();
+    }
+
+    public Mascota editMascota(Long id, @Valid MascotaEditRequest mascotaEditRequest) {
+        Optional<Mascota> opt = getMascotaById(id);
+        if (opt.isPresent()) {
+            Mascota mascota = opt.get();
+            if (id.equals(mascotaEditRequest.getId())) {
+                Mascota editedMascota = buildMascotaByEdit(mascotaEditRequest,mascota);
+                mascotaRepository.save(mascota);
+                return editedMascota;   
+            }
+        }
+        return null;
+    }
+
+    private Mascota buildMascotaByEdit(@Valid MascotaEditRequest mascotaEditRequest, Mascota mascota) {
+        return Mascota.builder()
+        .activo(true)
+        .id(mascotaEditRequest.getId())
+        .foto(mascotaEditRequest.getFoto())
+        .nombre(mascotaEditRequest.getNombre())
+        .sexo(mascotaEditRequest.getSexo())
+        .nacimiento(mascotaEditRequest.getNacimiento())
+        .id_doctor(mascota.getId_doctor())
+        .id_duenyo(mascota.getId_duenyo())
+        .build();
     }
 
 }

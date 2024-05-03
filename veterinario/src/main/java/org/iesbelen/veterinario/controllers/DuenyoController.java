@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.iesbelen.veterinario.model.Duenyo;
+import org.iesbelen.veterinario.requests.DuenyoEditRequest;
 import org.iesbelen.veterinario.services.DuenyoService;
 import org.iesbelen.veterinario.services.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -69,6 +76,18 @@ public class DuenyoController {
                 return new ResponseEntity<>(HttpStatus.OK);
            }
            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<String> editDuenyo(@PathVariable Long id, @Valid @RequestBody DuenyoEditRequest duenyoEditRequest,@RequestHeader("Authorization")String bearer) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        if (rol.equals("administrador")) {
+            Duenyo editedDuenyo = duenyoService.editDuenyo(duenyoEditRequest,id);
+            
+            return editedDuenyo != null? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }

@@ -61,6 +61,11 @@ public class JwtService {
         return (String) claims.get("rol");
     }
 
+    public boolean getChangedPasswordFromToken(String token) {
+        Claims claims = getAllClaims(token);
+        return (boolean) claims.get("changedPassowrd");
+    }
+
 
     public boolean isValid(String token, UserDetails userDetails) {
         String username = getUsernameFromToken(token);

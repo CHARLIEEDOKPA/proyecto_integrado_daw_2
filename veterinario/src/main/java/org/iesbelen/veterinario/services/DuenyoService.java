@@ -5,9 +5,12 @@ import java.util.Optional;
 
 import org.iesbelen.veterinario.model.Duenyo;
 import org.iesbelen.veterinario.repo.DuenyoRepository;
+import org.iesbelen.veterinario.requests.DuenyoEditRequest;
 import org.iesbelen.veterinario.requests.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.validation.Valid;
 
 @Service
 public class DuenyoService {
@@ -77,6 +80,33 @@ public class DuenyoService {
 
     public Optional<Duenyo> getDuenyoById(long id) {
         return duenyoRepository.getActiveDuenyo(id);
+    }
+
+    public Duenyo editDuenyo(@Valid DuenyoEditRequest duenyoEditRequest, Long id) {
+        Optional<Duenyo> opt = getDuenyoById(id);
+        if (opt.isPresent()) {
+            Duenyo duenyo = opt.get();
+            if (id.equals(duenyoEditRequest.getId()) && duenyoEditRequest.getEmail().equals(duenyo.getEmail())) {
+                Duenyo editedDuenyo = buildDuenyoForEdit(duenyoEditRequest);
+                duenyoRepository.save(editedDuenyo);
+                return editedDuenyo;
+            }
+        }
+        return null;
+    }
+
+    public Duenyo buildDuenyoForEdit(DuenyoEditRequest duenyoEditRequest) {
+        return Duenyo.builder()
+        .id(duenyoEditRequest.getId())
+        .nombre(duenyoEditRequest.getNombre())
+        .apellidos1(duenyoEditRequest.getApellidos1())
+        .apellidos2(duenyoEditRequest.getApellidos2())
+        .email(duenyoEditRequest.getEmail())
+        .activo(true)
+        .nacimiento(duenyoEditRequest.getNacimiento())
+        .residencia(duenyoEditRequest.getResidencia())
+        .telefono(duenyoEditRequest.getTelefono())
+        .build();
     }
 
 }

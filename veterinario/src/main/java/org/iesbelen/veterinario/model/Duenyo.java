@@ -59,18 +59,22 @@ public class Duenyo {
     @JsonIgnore
     private boolean activo;
 
+    @JsonIgnore
      @OneToMany(cascade = CascadeType.ALL)
      @JoinColumn(name = "id_duenyo", referencedColumnName = "id")
     private List<Mascota> mascotas;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_duenyo",referencedColumnName = "id")
     private List<Publicacion> publicaciones;
     
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_duenyo",referencedColumnName = "id")
     private List<MeGusta> megustas;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_duenyo",referencedColumnName = "id")
     private List<Comentario> comentarios;

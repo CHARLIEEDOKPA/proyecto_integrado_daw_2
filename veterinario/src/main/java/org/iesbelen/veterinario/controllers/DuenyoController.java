@@ -2,6 +2,7 @@ package org.iesbelen.veterinario.controllers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.iesbelen.veterinario.model.Duenyo;
 import org.iesbelen.veterinario.requests.DuenyoEditRequest;
@@ -21,6 +22,8 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -38,6 +41,8 @@ public class DuenyoController {
     @Autowired
     private DuenyoService duenyoService;
 
+
+    
     
 
     @GetMapping("all")
@@ -48,6 +53,19 @@ public class DuenyoController {
         if (rol.equals("administrador")) {
             List<Duenyo> duenyos = duenyoService.getListDuenyo();
             return new ResponseEntity<>(duenyos,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @GetMapping("token")
+    public ResponseEntity<Duenyo> getDuenyoByTheToken(@RequestHeader("Authorization") String bearer){
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        Long id = jwtService.getIdFromToken(token);
+
+        if (rol.equals("duenyo")) {
+            Optional<Duenyo> opt = duenyoService.getDuenyoById(id);
+            return opt.isPresent()? new ResponseEntity<>(opt.get(),HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.iesbelen.veterinario.model.Doctor;
+import org.iesbelen.veterinario.model.Duenyo;
 import org.iesbelen.veterinario.model.Mascota;
 import org.iesbelen.veterinario.repo.MascotaRepository;
 import org.iesbelen.veterinario.requests.MascotaEditRequest;
@@ -21,6 +22,9 @@ public class MascotaService {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private DuenyoService duenyoService;
 
 
      public Mascota addMascota(Mascota mascota) {
@@ -52,16 +56,26 @@ public class MascotaService {
      }
 
     public Mascota buildMascota(@Valid MascotaRequest mascotaRequest) {
-        long id_doctor = getRandomDoctorId();
-        return Mascota.builder()
-        .activo(true)
-        .nombre(mascotaRequest.getNombre())
-        .sexo(mascotaRequest.getSexo())
-        .id_duenyo(mascotaRequest.getId_duenyo())
-        .id_doctor(id_doctor)
-        .nacimiento(mascotaRequest.getNacimiento())
-        .foto(mascotaRequest.getFoto())
-        .build();
+        long id_duenyo = mascotaRequest.getId_duenyo();
+        Optional<Duenyo> opt = duenyoService.getDuenyoById(id_duenyo);
+        
+        if (getNumberOfDoctors() > 0 && opt.isPresent()) {
+            long id_doctor = getRandomDoctorId();
+            return Mascota.builder()
+            .activo(true)
+            .nombre(mascotaRequest.getNombre())
+            .sexo(mascotaRequest.getSexo())
+            .id_duenyo(mascotaRequest.getId_duenyo())
+            .id_doctor(id_doctor)
+            .nacimiento(mascotaRequest.getNacimiento())
+            .foto(mascotaRequest.getFoto())
+            .build();
+        }
+       return null;
+    }
+
+    private long getNumberOfDoctors() {
+        return doctorService.getListDoctores().size();
     }
 
     private long getRandomDoctorId() {

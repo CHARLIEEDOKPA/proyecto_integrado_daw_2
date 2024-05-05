@@ -1,0 +1,43 @@
+#welcome {
+    display: flex;
+    justify-content: space-around;
+    background-color: #EFBDBD;
+}
+
+#welcome h2 {
+    font-size: 70px;
+    align-self: center;
+    font-family: 'Rowdies';
+    width: 700px;
+}
+
+h4 {
+    text-align: center;
+    font-size: 65px;
+    font-family: 'Manjari';
+}
+
+
+#mascotas-div {
+
+    padding: 60px;
+}
+
+#mascotas {
+display: grid;
+grid-template-columns: repeat(3,1fr);
+justify-content: center;
+}
+
+.card-mascota {
+    border: 1px solid;
+    text-align: center;
+    padding-bottom: 25px;
+    width: 400px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.card-mascota img {
+    width: 100%;
+}

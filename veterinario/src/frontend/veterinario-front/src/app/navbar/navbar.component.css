@@ -1,0 +1,81 @@
+
+
+#logo i {
+align-self: center;
+margin-left: 20px;
+padding: 10px;
+color:#F38181;
+font-size: 90px;
+}
+
+#logo {
+    display: flex;
+
+    width: 220px;
+
+}
+
+
+#footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+h3 {
+    text-align: center;
+    font-size: 23px;
+    color:#F38181;
+    font-family: 'Rowdies';
+    align-self: center;
+}
+
+ul {
+    padding: 0;
+    display: flex;
+    
+}
+
+i {
+
+    color:#F38181;
+}
+
+ul > * {
+ margin-left: 60px;
+ font-size: 23px;
+ font-family: 'Manjari';
+ color: #F38181;
+ align-self: center;
+ list-style: none;
+ transition: 300ms;
+}
+
+#right-side {
+
+    display: flex;
+    justify-content: space-around;
+}
+
+#right-side i {
+    font-size: 50px;
+    margin-left: 60px;
+}
+
+#icons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#icons > * {
+
+    margin-left: 20px;
+    transition: 300ms;
+}
+
+
+#icons > *:hover,ul > *:hover {
+    transform: scale(0.9);
+    color: black;
+    cursor: pointer;
+}

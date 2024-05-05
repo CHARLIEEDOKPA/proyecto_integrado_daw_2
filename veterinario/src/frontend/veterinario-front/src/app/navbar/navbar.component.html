@@ -1,0 +1,23 @@
+<div id="footer">
+  <div id="logo">
+    <i class="fa-solid fa-paw"></i>
+    <h3>VETERINARIO BELEN</h3>
+  </div>
+
+  <div id="right-side">
+    <ul>
+      @if (rol == "duenyo") {
+      <li>Citas</li>
+      <li>Galería</li>
+      } @if (rol == "doctor") {
+      <li>Citas</li>
+      }
+    </ul>
+    <div id="icons">
+      @if (rol != "administrador") {
+      <i class="fa-regular fa-bell"></i>
+      }
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<app-navbar rol="duenyo"></app-navbar>
+<div id="report-incidencia">
+    <div id="report-incidencia-wrapper">
+        <div id="form-incidencia">
+            <h1>Reportando incidencia a {{mascota.nombre}}</h1>
+            <form action="" (submit)="sendIncidencia()" [formGroup]="formGroup">
+                <div id="input">
+                    <label for="">Observaciones: </label>
+                    <textarea name="" id="" formControlName="observacion"></textarea>
+                </div>
+                <div id="button">
+                    <input type="submit" value="Enviar Incidencia">
+                </div>
+                
+            </form>
+        </div>
+        <img src="../../assets/img/image6-transparent.png" alt="">
+    </div>
+    
+</div>

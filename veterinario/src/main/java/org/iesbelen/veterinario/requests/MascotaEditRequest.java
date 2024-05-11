@@ -31,5 +31,8 @@ public class MascotaEditRequest {
 
     @NotBlank
     private String foto;
+
+    @NotBlank
+    private String raza;
     
 }

@@ -14,4 +14,7 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Long> {
     @Query(value = "SELECT I from Incidencia I where I.id_doctor = %:id%")
     public List<Incidencia> getListIncidenciaByIdDyenyo(@Param("id") long id);
 
+    @Query(value = "SELECT I from Incidencia I where I.id_mascota = %:id%")
+    public List<Incidencia> getListIncidenciaByMascota(@Param("id") long id);
+
 }

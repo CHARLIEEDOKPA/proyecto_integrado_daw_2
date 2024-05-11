@@ -20,7 +20,4 @@ public class IncidenciaRequest {
     @NotNull
     private String observaciones;
 
-    @NotNull(message = "El rol no tiene que estar")
-    @NotBlank
-    private String rol;
 }

@@ -1,6 +1,6 @@
 <div id="duenyo">
     <div id="welcome">
-         <h2>BUENOS DÍAS, {{duenyo.nombre}}</h2>
+         <h2>{{getWelcomeTextByHour()}}, {{duenyo.nombre}}</h2>
          <img src="../../assets/img/image 5.png" alt="">
     </div>
     <div id="mascotas-div">
@@ -11,31 +11,14 @@
                     <img src="{{mascota.foto != null ? mascota.foto : '../../assets/img/perro-19670.jpg'}}" alt="">
                     <h1>{{mascota.nombre}}</h1>
                     <div id="buttons">
-                        <button>Ver</button>
+                        <button (click)="gotoMascotaById(mascota.id)">Ver</button>
                         <button>Incidencia</button>
                     </div>
                 </div>
             }
-            @for (mascota of mascotas; track mascota.id) {
-                <div class="card-mascota">
-                    <img src="{{mascota.foto != null ? mascota.foto : '../../assets/img/perro-19670.jpg'}}" alt="">
-                    <h1>{{mascota.nombre}}</h1>
-                    <div id="buttons">
-                        <button>Ver</button>
-                        <button>Incidencia</button>
-                    </div>
-                </div>
-            }
-            @for (mascota of mascotas; track mascota.id) {
-                <div class="card-mascota">
-                    <img src="{{mascota.foto != null ? mascota.foto : '../../assets/img/perro-19670.jpg'}}" alt="">
-                    <h1>{{mascota.nombre}}</h1>
-                    <div id="buttons">
-                        <button>Ver</button>
-                        <button>Incidencia</button>
-                    </div>
-                </div>
-            }
+            
         </div>
     </div>
+
+    <app-weather></app-weather>
 </div>

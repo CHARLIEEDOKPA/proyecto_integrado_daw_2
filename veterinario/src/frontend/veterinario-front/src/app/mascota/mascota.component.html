@@ -1,0 +1,38 @@
+<app-navbar rol="duenyo"></app-navbar>
+
+<div id="mascota">
+    <div id="mascota-data">
+        <img src="{{mascota.foto != null ? mascota.foto: '../../assets/img/perro-19670.jpg'}}" alt="">
+        <h2>{{mascota.nombre}}</h2>
+        <h4>Edad: {{getEdad()}}</h4>
+        <h4>Raza: {{mascota.raza}}</h4>
+        <h4>Sexo: {{mascota.sexo}}</h4>
+    </div>
+    <div id="incidencia-mascota">
+        <h1>Incidencias Hechas</h1>
+        <div id="incidencia-list">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Fecha</td>
+                        <td>Observación</td>
+                        <td>Más detalles</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (incidencia of incidencias; track incidencia.id) {
+                        <tr>
+                            <td>2024-10-12</td>
+                            <td>{{incidencia.observaciones}}</td>
+                            <td>Detalles</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="button">
+            <button (click)="reportIncidencia(mascota.id)">Reportar incidencia a {{mascota.nombre}}</button>
+        </div>
+        
+    </div>
+</div>

@@ -6,4 +6,5 @@ export interface Mascota {
     sexo: string
     citas: any[]
     foto: any
+    raza:string
 }

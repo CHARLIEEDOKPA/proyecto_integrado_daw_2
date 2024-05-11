@@ -48,6 +48,9 @@ public class Mascota {
     @JsonIgnore
     private long id_doctor;
 
+    @Column(nullable = false)
+    private String raza;
+
     @JsonIgnore
     private long id_duenyo;
     @JsonIgnore

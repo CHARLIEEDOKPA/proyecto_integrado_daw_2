@@ -1,0 +1,38 @@
+#weather {
+    padding: 20px;
+    font-family: 'Manjari';
+    background-color: #601010;
+    color: white;
+    margin-bottom:100px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 60px;
+    margin-bottom: 0;
+}
+
+img {
+    width: 600px;
+}
+
+#info {
+    display: flex;
+    justify-content: center;
+}
+
+h2 {
+    text-align: center;
+    font-size: 65px;
+}
+
+#text {
+    align-self: center;
+}
+
+h4 {
+    text-align: center;
+    font-size: 40px;
+    width: 700px;
+
+}

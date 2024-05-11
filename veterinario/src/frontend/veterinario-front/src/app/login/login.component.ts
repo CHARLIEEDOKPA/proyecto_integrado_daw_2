@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit{
   public doLogin() {
     
     if(this.formGroup.valid) {
-
       let login = this.formGroup.value;
       this.loginService.login(login).subscribe(x => {
         let token:string = (x as any).token;
@@ -32,6 +31,7 @@ export class LoginComponent implements OnInit{
       },error => {
         let status:number = error.status
         if(status == 403) {
+          console.log(error)
           alert("Las credenciales esta incorrectas")
         }
       } )

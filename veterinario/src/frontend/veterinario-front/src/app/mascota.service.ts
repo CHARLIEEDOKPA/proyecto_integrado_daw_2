@@ -17,4 +17,8 @@ export class MascotaService {
   public getMascotas(): Observable<Mascota[]> {
     return this.httpClient.get<Mascota[]>(`${this.URL}/get`)
   }
+
+  public getMascota(id:number):Observable<Mascota> {
+    return this.httpClient.get<Mascota>(`${this.URL}/${id}`)
+  }
 }

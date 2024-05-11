@@ -22,5 +22,7 @@ public class MascotaRequest {
     @NotNull
     private long id_duenyo;
     private String foto;
+    @NotBlank
+    private String raza;
 
 }

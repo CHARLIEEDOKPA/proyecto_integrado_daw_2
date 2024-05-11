@@ -1,0 +1,70 @@
+img {
+    border: 1px solid;
+    width: 300px;
+    border-radius: 60px;
+}
+
+#mascota {
+    text-align: center;
+    padding: 40px;
+    font-family: 'Manjari';
+}
+
+h2 {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+h4 {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+h1 {
+
+    font-size: 70px;
+}
+
+#button {
+    padding: 20px;
+}
+
+#incidencia-mascota {
+    padding: 20px;
+}
+
+#incidencia-list{
+    display: flex;
+    justify-content: center;
+    padding: 75px;
+  }
+
+  td {
+    width: 500px;
+  }
+
+thead td {
+    font-size: 35px;
+}
+
+button {
+    padding: 20px;
+    background-color: #F38181;
+    font-family: 'Manjari';
+    font-size: 20px;
+    border: 0;
+    border-radius: 10px;
+    transition: 300ms;
+}
+
+
+
+tbody {
+    tr
+}
+
+button:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+}

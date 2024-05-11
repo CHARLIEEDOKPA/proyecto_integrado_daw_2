@@ -2,6 +2,8 @@ package org.iesbelen.veterinario.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,8 +34,10 @@ public class Incidencia {
     @Column(nullable = false)
     private LocalDateTime fecha;
 
+    @JsonIgnore
     @Column(nullable = false)
     private long id_mascota;
+    @JsonIgnore
     @Column(nullable = false)
     private long id_doctor;
     @Column(nullable = false,length = 1500)

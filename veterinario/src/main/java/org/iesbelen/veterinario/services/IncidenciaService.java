@@ -96,4 +96,12 @@ public class IncidenciaService {
         return null;
     }
 
+    public void readIncidencia(Long id) {
+       incidenciaRepository.readIncidencia(id);
+    }
+
+    public List<Incidencia> getIncidenciasByDoctor(Long id) {
+        return this.incidenciaRepository.getListIncidenciaByDoctor(id);
+    }
+
 }

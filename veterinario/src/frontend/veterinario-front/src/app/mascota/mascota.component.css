@@ -45,7 +45,18 @@ h1 {
   }
 
 thead td {
-    font-size: 35px;
+    font-size: 45px;
+}
+
+thead tr{
+    height: 130px;
+    color:white;
+    background-color: #F38181;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 10px 5px;
 }
 
 button {
@@ -60,8 +71,31 @@ button {
 
 
 
-tbody {
-    tr
+tbody td{
+ font-size: 20px; 
+ padding: 16px;
+ border: 1px solid;  
+}
+
+.new {
+    font-weight: bolder;
+    animation: beat .25s infinite alternate;
+}
+
+
+i {
+    font-size: 50px;
+    color:#F38181;
+    transition: 300ms;
+}
+
+i:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+}
+
+#status {
+    font-size: 40px;
 }
 
 button:hover {

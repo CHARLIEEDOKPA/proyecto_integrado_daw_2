@@ -1,6 +1,7 @@
 package org.iesbelen.veterinario.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.iesbelen.veterinario.model.Incidencia;
 import org.iesbelen.veterinario.requests.IncidenciaRequest;
@@ -21,8 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
 @RestController
 
 @RequestMapping("incidencia")
@@ -38,8 +37,6 @@ public class IncidenciaController {
     @PostMapping("add")
     public ResponseEntity<Incidencia> addIncidencia(@RequestBody @Valid IncidenciaRequest incidenciaRequest,
             BindingResult bindingResult, @RequestHeader("Authorization") String bearer) {
-        
-
 
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
@@ -62,27 +59,69 @@ public class IncidenciaController {
         return "hola";
     }
 
+    @PostMapping("read/{id_incidencia}")
+    public ResponseEntity<String> read(@PathVariable Long id_incidencia, @RequestHeader("Authorization") String bearer) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        Long id = jwtService.getIdFromToken(token);
+        if (rol.equals("doctor")) {
+            Optional<Incidencia> opt = incidenciaService.getIncidenciaById(id);
+            if (opt.isPresent()) {
+                incidenciaService.readIncidencia(id);
+                return id.equals(opt.get().getId_doctor()) ? new ResponseEntity<>(HttpStatus.OK):new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
 
     @GetMapping("mascota/{id_mascota}")
-    public ResponseEntity<List<Incidencia>> getIncidenciaByMascotas(@PathVariable Long id_mascota,@RequestHeader("Authorization")String bearer) {
+    public ResponseEntity<List<Incidencia>> getIncidenciaByMascotas(@PathVariable Long id_mascota,
+            @RequestHeader("Authorization") String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         long id = jwtService.getIdFromToken(token);
 
         if (rol.equals("duenyo")) {
-            List<Incidencia> incidencias = incidenciaService.getIncidenciaByMascotaAndByDuenyo(id_mascota,id);
-            return incidencias != null ? new ResponseEntity<>(incidencias,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            List<Incidencia> incidencias = incidenciaService.getIncidenciaByMascotaAndByDuenyo(id_mascota, id);
+            return incidencias != null ? new ResponseEntity<>(incidencias, HttpStatus.OK)
+                    : new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    
 
-    @GetMapping("welcome")
-    public ResponseEntity<String> welcome(@RequestHeader("Authorization") String bearer) {
-        return new ResponseEntity<>("holaaa" + jwtService.getSubsTringToken(bearer),HttpStatus.ACCEPTED);
+    @GetMapping("{id_incidencia}")
+    public ResponseEntity<Incidencia> getIncidencia(@PathVariable Long id_incidencia, @RequestHeader("Authorization") String bearer) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        Long id = jwtService.getIdFromToken(token);
+
+        if (rol.equals("doctor")) {
+            Optional<Incidencia> opt = incidenciaService.getIncidenciaById(id_incidencia);
+            if (opt.isPresent()) {
+                Incidencia incidencia = opt.get();
+                return id.equals(incidencia.getId_doctor()) ? new ResponseEntity<>(incidencia,HttpStatus.OK) 
+                : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    
+
+    @GetMapping("doctor")
+    public ResponseEntity<List<Incidencia>> getIncidenciasByDoctor(@RequestHeader("Authorization") String bearer) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        Long id = jwtService.getIdFromToken(token);
+
+        if (rol.equals("doctor")) {
+            List<Incidencia> incidencias = incidenciaService.getIncidenciasByDoctor(id);
+            return new ResponseEntity<>(incidencias,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
     
 
 }

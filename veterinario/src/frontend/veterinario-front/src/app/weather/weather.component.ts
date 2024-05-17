@@ -16,13 +16,8 @@ export class WeatherComponent implements OnInit {
   weather!: Weather;
 
   ngOnInit(): void {
-    this.locationService.getLocation().subscribe(x => {
-      let latitud = x.coords.latitude
-      let longitud = x.coords.longitude
-      console.log(latitud)
-      this.weatherService.getWeather(latitud,longitud).subscribe(x => console.log(x), error => {
-        console.log(error)
-      })
+    this.locationService.getPosition().then(x => {
+      this.weatherService.getWeather(x.lat, x.lng).subscribe(x => this.weather = x)
     })
   }
 

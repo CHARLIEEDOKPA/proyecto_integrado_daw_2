@@ -1,0 +1,22 @@
+<div id="doctor">
+    <div id="welcome">
+         <h2>{{getWelcomeTextByHour()}}, DR {{doctor.nombre.toUpperCase()}}</h2>
+         <img src="../../assets/img/vet.png" alt="">
+    </div>
+
+    <div id="mascotas-div">
+        <h4>Mascotas para atender</h4>
+        <div id="mascotas">
+            @for (mascota of mascotas; track mascota.id) {
+                <div class="card-mascota">
+                    <img src="{{mascota.foto != null ? mascota.foto : '../../assets/img/perro-19670.jpg'}}" alt="">
+                    <h1>{{mascota.nombre}}</h1>
+                    <div id="buttons">
+                        <button (click)="gotoMascotaById(mascota.id)">Ver Información {{getNumeroDeIncidenciasNoLeidas(mascota.incidencias)}}</button>
+                    </div>
+                </div>
+            }
+            
+        </div>
+    </div>
+</div>

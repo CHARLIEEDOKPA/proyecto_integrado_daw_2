@@ -37,6 +37,8 @@ public class Recomendacion {
     private long id_mascota;
     @Column(nullable = false)
     private long id_doctor;
+    @Column(nullable = false)
+    private boolean leido;
 
      @PrePersist
     public void prePersist() {

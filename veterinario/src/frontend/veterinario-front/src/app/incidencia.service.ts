@@ -19,4 +19,16 @@ export class IncidenciaService {
   public sendIncidencia(incidenciaRequest:IncidenciaRequest) {
     return this.httpClient.post(`${this.URL}/add`,incidenciaRequest)
   }
+
+  public readIncidencia(id:number) {
+    return this.httpClient.post(`${this.URL}/read/${id}`,undefined)
+  }
+
+  public getIncidenciaById(id:number) {
+    return this.httpClient.get<Incidencia>(`${this.URL}/${id}`)
+  }
+
+  public getIncidenciasByDoctor() {
+    return this.httpClient.get<Incidencia[]>(`${this.URL}/doctor`)
+  }
 }

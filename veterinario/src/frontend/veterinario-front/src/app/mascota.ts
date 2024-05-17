@@ -1,3 +1,5 @@
+import { Incidencia } from "./incidencia"
+
 export interface Mascota {
 
     id: number
@@ -7,4 +9,5 @@ export interface Mascota {
     citas: any[]
     foto: any
     raza:string
+    incidencias:Incidencia[]
 }

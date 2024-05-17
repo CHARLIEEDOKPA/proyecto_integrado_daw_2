@@ -47,6 +47,8 @@ public class Doctor {
     private String email;
     @Column(nullable = false, length = 9)
     private String telefono;
+    
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_doctor", referencedColumnName = "id")
 
@@ -54,14 +56,17 @@ public class Doctor {
     @JsonIgnore
     private boolean activo;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_doctor",referencedColumnName = "id")
     private List<Incidencia> incidencias;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_doctor",referencedColumnName = "id")
     private List<Recomendacion> recomendaciones;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_doctor",referencedColumnName = "id")
     private List<Cita> citas;

@@ -78,4 +78,6 @@ public class Duenyo {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_duenyo",referencedColumnName = "id")
     private List<Comentario> comentarios;
+
+    
 }

@@ -1,5 +1,6 @@
 package org.iesbelen.veterinario.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.iesbelen.veterinario.model.Credenciales;
@@ -46,6 +47,10 @@ public class RecomendacionService {
         return recomendacionRepository.save(recomendacion);
     }
 
+    public Optional<Recomendacion> getRecomendacionById(long id) {
+        return recomendacionRepository.findById(id);
+    }
+
     public Recomendacion buildRecomendacion(@Valid RecomendacionRequest recomendacionRequest, Long id) {
         Optional<Mascota> opt = mascotaService.getMascotaById(recomendacionRequest.getId_mascota());
 
@@ -62,6 +67,14 @@ public class RecomendacionService {
 
         return null;
 
+    }
+
+    public List<Recomendacion> getRecomendacionesByDuenyo(Long id) {
+       return recomendacionRepository.getRecomendacionesByDuenyo(id);
+    }
+
+    public void readRecomendacion(Long id_recomendacion) {
+        this.recomendacionRepository.readRecomendacion(id_recomendacion);
     }
 
 }

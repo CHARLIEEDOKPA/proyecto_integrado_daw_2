@@ -48,12 +48,6 @@ public class AuthController {
     @Autowired
     private JwtService jwtService;
 
-    @ApiResponse
-    @GetMapping("prueba")
-    public ResponseEntity<Credenciales> prueba(HttpSession httpSession) {
-        return new ResponseEntity<Credenciales>(((Credenciales) httpSession.getAttribute("usuario")), HttpStatus.OK);
-    }
-
     @PostMapping("login")
     public ResponseEntity<AuthResponse> test(@Valid@RequestBody UserPassword userPassword) {
         return ResponseEntity.ok(credencialesService.login(userPassword));

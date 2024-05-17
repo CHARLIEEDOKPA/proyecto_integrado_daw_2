@@ -84,5 +84,9 @@ public class DoctorService {
         .residencia(registerRequest.getResidencia())
         .telefono(registerRequest.getTelefono())
         .build();
+    }
+
+    public Optional<Doctor> getDoctorByRecomendacion(long id) {
+        return this.doctorRepository.getDoctorByRecomendacion(id);
     } 
 }

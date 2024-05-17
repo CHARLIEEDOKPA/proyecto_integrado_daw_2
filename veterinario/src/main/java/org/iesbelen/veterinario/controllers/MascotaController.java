@@ -72,7 +72,7 @@ public class MascotaController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         Long id_duenyo = jwtService.getIdFromToken(token);
-        List<String> roles = Arrays.asList("administrador", "duenyo");
+        List<String> roles = Arrays.asList("administrador", "duenyo","doctor");
 
         if (roles.contains(rol)) {
             Optional<Mascota> opt = mascotaService.getMascotaById(id);
@@ -80,6 +80,10 @@ public class MascotaController {
                 Mascota mascota = opt.get();
                 if (rol.equals("duenyo")) {
                     return id_duenyo.equals(mascota.getId_duenyo()) ? new ResponseEntity<>(mascota, HttpStatus.OK)
+                            : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+                if (rol.equals("doctor")) {
+                    return id_duenyo.equals(mascota.getId_doctor()) ? new ResponseEntity<>(mascota, HttpStatus.OK)
                             : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
                 return new ResponseEntity<>(mascota, HttpStatus.OK);

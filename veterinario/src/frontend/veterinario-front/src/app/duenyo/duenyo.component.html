@@ -12,7 +12,7 @@
                     <h1>{{mascota.nombre}}</h1>
                     <div id="buttons">
                         <button (click)="gotoMascotaById(mascota.id)">Ver</button>
-                        <button>Incidencia</button>
+                        <button (click)="reportIncidencia(mascota.id)">Incidencia</button>
                     </div>
                 </div>
             }

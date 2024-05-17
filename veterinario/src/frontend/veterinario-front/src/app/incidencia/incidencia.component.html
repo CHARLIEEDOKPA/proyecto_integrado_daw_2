@@ -1,0 +1,12 @@
+<app-navbar rol="doctor"></app-navbar>
+<div id="incidencia">
+
+    <div id="caja">
+        <h2>Incidencia de la mascota {{mascota.nombre}}</h2>
+        <h4>Escrito por: {{duenyo.nombre}} {{duenyo.apellidos1}} {{duenyo.apellidos2}}</h4>
+        <p>{{incidencia.observaciones}}</p>
+    </div>
+    <div id="button">
+        <button (click)="responder(mascota.id)">Responder</button>
+    </div>
+</div>

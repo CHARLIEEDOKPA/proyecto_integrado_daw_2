@@ -16,10 +16,17 @@ font-size: 90px;
 }
 
 
+#logo:hover {
+    cursor: pointer;
+}
+
+
 #footer {
     display: flex;
     justify-content: space-around;
 }
+
+
 
 h3 {
     text-align: center;
@@ -78,4 +85,8 @@ ul > * {
     transform: scale(0.9);
     color: black;
     cursor: pointer;
+}
+
+#yellow-bell {
+    color: rgb(239, 239, 103);
 }

@@ -4,35 +4,53 @@
     <div id="mascota-data">
         <img src="{{mascota.foto != null ? mascota.foto: '../../assets/img/perro-19670.jpg'}}" alt="">
         <h2>{{mascota.nombre}}</h2>
+        @if (rol == "doctor") {
+            <h4>Dueño: {{duenyo.nombre}} {{duenyo.apellidos1}} {{duenyo.apellidos2}}</h4>
+        }
         <h4>Edad: {{getEdad()}}</h4>
         <h4>Raza: {{mascota.raza}}</h4>
         <h4>Sexo: {{mascota.sexo}}</h4>
     </div>
     <div id="incidencia-mascota">
+        @if (rol == "duenyo") {
         <h1>Incidencias Hechas</h1>
+    } @else {
+        <h1>Sus incidencias</h1>
+    }
         <div id="incidencia-list">
             <table>
                 <thead>
                     <tr>
                         <td>Fecha</td>
                         <td>Observación</td>
-                        <td>Más detalles</td>
+                        @if (rol == "doctor") {
+                            <td>Status</td>
+                            <td>Más detalles</td>
+                        }
+                        
+                        
                     </tr>
                 </thead>
                 <tbody>
                     @for (incidencia of incidencias; track incidencia.id) {
-                        <tr>
-                            <td>2024-10-12</td>
-                            <td>{{incidencia.observaciones}}</td>
-                            <td>Detalles</td>
+                        <tr [ngClass]="{'new': !incidencia.leido}">
+                            <td>{{getStringDate(incidencia.fecha)}}</td>
+                            <td>{{incidencia.observaciones.substring(0,42)}}...</td>
+                            @if (rol == "doctor") {
+                                <td id="status">{{!incidencia.leido ? "Nuevo": "Leido"}}</td>
+                                <td><i class="fa-regular fa-eye" (click)="readAndRedirectIncidencia(incidencia.id)"></i></td>
+                            }
+                            
+                            
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
+        @if (rol == "duenyo") {
         <div id="button">
             <button (click)="reportIncidencia(mascota.id)">Reportar incidencia a {{mascota.nombre}}</button>
         </div>
-        
+    }
     </div>
 </div>

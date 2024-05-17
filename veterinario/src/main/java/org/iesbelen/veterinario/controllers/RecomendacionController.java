@@ -1,17 +1,25 @@
 package org.iesbelen.veterinario.controllers;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.iesbelen.veterinario.model.Mascota;
 import org.iesbelen.veterinario.model.Recomendacion;
 import org.iesbelen.veterinario.requests.RecomendacionRequest;
 import org.iesbelen.veterinario.services.JwtService;
+import org.iesbelen.veterinario.services.MascotaService;
 import org.iesbelen.veterinario.services.RecomendacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -35,6 +43,8 @@ public class RecomendacionController {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private MascotaService mascotaService;
 
 
     @PostMapping("add")
@@ -49,6 +59,43 @@ public class RecomendacionController {
                 return new ResponseEntity<Recomendacion>(newRecomendacion, HttpStatus.CREATED);
             }
            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("read/{id_recomendacion}")
+    public ResponseEntity<String> readRecomendacion(@PathVariable Long id_recomendacion, @RequestHeader("Authorization") String bearer) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        Long id = jwtService.getIdFromToken(token);
+
+        if (rol.equals("duenyo")) {
+            Optional<Recomendacion> opt = recomendacionService.getRecomendacionById(id_recomendacion);
+            if (opt.isPresent()) {
+                Recomendacion recomendacion = opt.get();
+                Optional<Mascota> opt_mascota = mascotaService.getMascotaById(recomendacion.getId_mascota());
+                if (opt_mascota.isPresent() && id.equals(opt_mascota.get().getId_duenyo()) ) {
+                    this.recomendacionService.readRecomendacion(id_recomendacion);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+    }
+    
+
+    @GetMapping("get/duenyo")
+    public ResponseEntity<List<Recomendacion>> getRecomendaciones(@RequestHeader("Authorization") String bearer){
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        Long id = jwtService.getIdFromToken(token);
+
+        if (rol.equals("duenyo")) {
+            List<Recomendacion> recomendaciones = recomendacionService.getRecomendacionesByDuenyo(id);
+            return new ResponseEntity<>(recomendaciones,HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }

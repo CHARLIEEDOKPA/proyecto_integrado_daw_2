@@ -16,6 +16,7 @@ export class WeatherService {
   constructor(private httpClient:HttpClient) { }
 
   public getWeather(latitud:any, longitud:any) {
+    window.navigator.geolocation.getCurrentPosition(x => {})
     return this.httpClient.get<Weather>(`${this.URL}?key=${this.API_KEY}&q=${latitud},${longitud}&lang=${this.LANGUAGE}`)
   }
 }

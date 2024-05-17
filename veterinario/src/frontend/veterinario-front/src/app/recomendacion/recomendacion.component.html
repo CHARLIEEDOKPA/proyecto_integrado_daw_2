@@ -1,0 +1,21 @@
+<app-navbar rol="doctor"></app-navbar>
+
+<div id="recomendacion" >
+  <h1>Enviar recomendacion a {{ mascota.nombre }}</h1>
+  
+  <form action="" (submit)="sendRecomendacion()" [formGroup]="formgroup">
+    <div class="input">
+        <label for="">Sobre</label>
+        <input type="text" name="" id="" formControlName="sobre">
+    </div>
+    <div class="input">
+        <label for="">Texto</label>
+        <textarea name="" id="" formControlName="texto"></textarea>
+    </div>
+    
+    <div id="button">
+        <input type="submit" value="Enviar">
+    </div>
+    
+  </form>
+</div>

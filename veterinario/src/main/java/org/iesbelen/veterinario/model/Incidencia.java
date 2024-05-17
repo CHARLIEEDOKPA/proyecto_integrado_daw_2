@@ -33,8 +33,7 @@ public class Incidencia {
 
     @Column(nullable = false)
     private LocalDateTime fecha;
-
-    @JsonIgnore
+    
     @Column(nullable = false)
     private long id_mascota;
     @JsonIgnore
@@ -42,6 +41,9 @@ public class Incidencia {
     private long id_doctor;
     @Column(nullable = false,length = 1500)
     private String observaciones;
+
+    @Column(nullable = false)
+    private boolean leido;
 
      @PrePersist
     public void prePersist() {

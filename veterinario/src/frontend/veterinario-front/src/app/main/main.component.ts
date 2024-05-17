@@ -4,13 +4,14 @@ import { JwtService } from '../jwt.service';
 import { Router } from '@angular/router';
 import { Credentials } from '../credentials';
 import { DuenyoComponent } from "../duenyo/duenyo.component";
+import { DoctorComponent } from "../doctor/doctor.component";
 
 @Component({
     selector: 'app-main',
     standalone: true,
     templateUrl: './main.component.html',
     styleUrl: './main.component.css',
-    imports: [NavbarComponent, DuenyoComponent]
+    imports: [NavbarComponent, DuenyoComponent, DoctorComponent]
 })
 
 export class MainComponent implements OnInit{

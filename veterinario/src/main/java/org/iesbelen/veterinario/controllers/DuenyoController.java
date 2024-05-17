@@ -57,6 +57,19 @@ public class DuenyoController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    @GetMapping("mascota/{id_mascota}")
+    public ResponseEntity<Duenyo> getDuenyoByMascotaId(@PathVariable Long id_mascota,@RequestHeader("Authorization") String bearer) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        if (rol.equals("doctor")) {
+            Optional<Duenyo> opt = duenyoService.getDuenyoByMascotaId(id_mascota);
+            return opt.isPresent() ? new ResponseEntity<>(opt.get(),HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+    
+
     @GetMapping("token")
     public ResponseEntity<Duenyo> getDuenyoByTheToken(@RequestHeader("Authorization") String bearer){
         String token = jwtService.getSubsTringToken(bearer);

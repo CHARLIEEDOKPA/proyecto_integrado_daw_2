@@ -1,0 +1,45 @@
+* {
+    font-family: 'Manjari';
+}
+
+h1 {
+    text-align: center;
+    font-size: 50px;
+}
+
+.notif {
+    border: 1px solid;
+   
+    width: 1400px;
+    margin: 0 auto;
+    border-radius: 10px;
+    font-size: 26px;
+    font-weight: bolder;
+    padding-left: 30px ;
+    padding-right: 30px;
+    display: flex;
+    justify-content: space-between;
+    transition: 300ms;
+    
+    
+}
+
+.notif:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+}
+
+
+#notificaciones {
+padding: 20px;
+
+}
+
+.status {
+    align-self: flex-end;
+    color: #F38181;
+}
+
+.status,.sobre {
+    font-size: 20px;
+}

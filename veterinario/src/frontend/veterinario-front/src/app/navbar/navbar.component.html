@@ -1,5 +1,5 @@
 <div id="footer">
-  <div id="logo">
+  <div id="logo" (click)="redirectToMain()">
     <i class="fa-solid fa-paw"></i>
     <h3>VETERINARIO BELEN</h3>
   </div>
@@ -15,9 +15,11 @@
     </ul>
     <div id="icons">
       @if (rol != "administrador") {
-      <i class="fa-regular fa-bell"></i>
+        @if (lenght > 0) {
+          <i class="fa-solid fa-bell" id="yellow-bell" (click)="redirectToNotifications()"></i>
+        }
       }
-      <i class="fa-solid fa-right-from-bracket"></i>
+      <i class="fa-solid fa-right-from-bracket" (click)="logout()"></i>
     </div>
   </div>
 </div>

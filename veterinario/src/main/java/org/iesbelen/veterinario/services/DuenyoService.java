@@ -109,4 +109,10 @@ public class DuenyoService {
         .build();
     }
 
+    public Optional<Duenyo>getDuenyoByMascotaId(Long id_mascota) {
+        return duenyoRepository.getDuenyoByMascotaId(id_mascota);
+    }
+
+
+    
 }

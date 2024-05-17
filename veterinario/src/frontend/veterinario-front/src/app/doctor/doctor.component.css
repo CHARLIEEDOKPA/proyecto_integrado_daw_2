@@ -1,0 +1,72 @@
+#welcome {
+    display: flex;
+    justify-content: space-around;
+    background-color: #EFBDBD;
+}
+
+#welcome h2 {
+    font-size: 70px;
+    align-self: center;
+    font-family: 'Rowdies';
+    width: 700px;
+}
+
+h4 {
+    text-align: center;
+    font-size: 65px;
+    font-family: 'Manjari';
+}
+
+
+#mascotas-div {
+
+    padding: 60px;
+}
+
+#mascotas {
+display: grid;
+grid-template-columns: repeat(3,1fr);
+justify-content: center;
+margin: 0 auto;
+width: 1100px;
+gap: 40px;
+}
+
+.card-mascota {
+    border: 1px solid;
+    text-align: center;
+    padding-bottom: 25px;
+    width: 400px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+}
+
+.card-mascota img {
+    width: 100%;
+}
+
+.card-mascota h1 {
+    font-family: 'Manjari';
+}
+
+#buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+button {
+
+    background-color: #F38181;
+    border: 0;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: 'Manjari';
+    font-size: 30px;
+    transition: 300ms;
+}
+
+button:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+}

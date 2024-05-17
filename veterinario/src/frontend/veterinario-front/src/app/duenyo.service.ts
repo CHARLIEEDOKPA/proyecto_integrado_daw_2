@@ -16,4 +16,8 @@ export class DuenyoService {
     return this.httpCliente.get<Duenyo>(`${this.URL}/token`)
   }
 
+  public getDuenyoByIdMascota(id:number):Observable<Duenyo> {
+    return this.httpCliente.get<Duenyo>(`${this.URL}/mascota/${id}`)
+  }
+
 }

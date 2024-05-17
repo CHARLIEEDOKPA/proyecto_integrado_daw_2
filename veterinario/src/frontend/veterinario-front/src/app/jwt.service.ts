@@ -17,7 +17,7 @@ export class JwtService {
     if (token != null) {
       let encodedInfo = token.split('.')[1];
       let object: Credentials = JSON.parse(atob(encodedInfo));
-
+      
       return object.exp < new Date().getTime() ? token : null;
     }
 

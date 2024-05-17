@@ -22,4 +22,7 @@ public interface DuenyoRepository extends JpaRepository<Duenyo,Long>{
     @Query("SELECT D FROM Duenyo D where D.id=:id and D.activo = true")
     public Optional<Duenyo> getActiveDuenyo(@Param("id") Long id);
 
+    @Query("SELECT D FROM Duenyo D where id = (SELECT M.id_duenyo from Mascota M where id = :id_mascota)")
+    public Optional<Duenyo>getDuenyoByMascotaId(@Param("id_mascota") Long id_mascota);
+
 }

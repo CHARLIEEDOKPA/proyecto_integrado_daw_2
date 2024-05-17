@@ -1,0 +1,26 @@
+<app-navbar [rol]="rol"></app-navbar>
+
+<div id="notificaciones">
+    <h1>Notificaciones</h1> 
+    
+    @if (rol === "duenyo") { 
+    
+       @for (recomendacion of recomendacionDoctorList; track recomendacion.id) {
+
+        <div class="notif" (click)="readAndRedirectViewRecomendacion(recomendacion.id)">
+            <div class="first-col">
+                <p>Dr {{getDoctorFullName(recomendacion.doctor)}}</p>
+                <p class="sobre">{{recomendacion.recomendacion.sobre}}</p>
+            </div>
+
+            <p class="status">{{recomendacionLeido(recomendacion.recomendacion)}}</p>
+            
+        </div>
+       }
+        
+
+    } @else {
+    
+     } 
+</div>
+

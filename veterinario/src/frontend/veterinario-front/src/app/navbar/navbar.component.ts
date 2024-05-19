@@ -14,6 +14,7 @@ import { Recomendacion } from '../recomendacion';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit{
+
  
   @Input() rol!: string;
 
@@ -82,4 +83,8 @@ export class NavbarComponent implements OnInit{
     return length
    
   }
+
+  redirectToCitas() {
+    this.router.navigate(['citas'])
+    }
 }

@@ -66,6 +66,7 @@ public class Mascota {
     @JoinColumn(name = "id_mascota",referencedColumnName = "id")
     private List<Recomendacion> recomendaciones;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_mascota",referencedColumnName = "id")
     private List<Cita> citas;

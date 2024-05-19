@@ -1,5 +1,7 @@
 package org.iesbelen.veterinario.repo;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,6 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
     public List<Cita> getCitasByDuenyo(@Param("id") long id);
 
     @Query(value = "SELECT C from Cita C where C.time = %:time% AND C.date = %:date% and C.id_doctor = %:id_doctor%")
-    public Optional<Cita> getCitaByDateTime(@Param("time")String time,@Param("date")String date, @Param("id_doctor") long id_doctor);
+    public Optional<Cita> getCitaByDateTime(@Param("time")Time time,@Param("date")Date date, @Param("id_doctor") long id_doctor);
 
 }

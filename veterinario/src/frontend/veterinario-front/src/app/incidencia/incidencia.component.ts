@@ -7,13 +7,14 @@ import { IncidenciaService } from '../incidencia.service';
 import { DuenyoService } from '../duenyo.service';
 import { Incidencia } from '../incidencia';
 import { Duenyo } from '../duenyo';
+import { AddCitaComponent } from "../add-cita/add-cita.component";
 
 @Component({
     selector: 'app-incidencia',
     standalone: true,
     templateUrl: './incidencia.component.html',
     styleUrl: './incidencia.component.css',
-    imports: [NavbarComponent]
+    imports: [NavbarComponent, AddCitaComponent]
 })
 export class IncidenciaComponent implements OnInit{
 

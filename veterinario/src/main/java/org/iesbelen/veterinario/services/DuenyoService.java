@@ -113,6 +113,10 @@ public class DuenyoService {
         return duenyoRepository.getDuenyoByMascotaId(id_mascota);
     }
 
+    public Optional<Duenyo> getDuenyoByIncidenciaId(long id) {
+        return duenyoRepository.getDuenyoByMascotaId(id);
+    }
+
 
     
 }

@@ -1,21 +1,30 @@
 <app-navbar rol="doctor"></app-navbar>
 
-<div id="recomendacion" >
-  <h1>Enviar recomendacion a {{ mascota.nombre }}</h1>
-  
-  <form action="" (submit)="sendRecomendacion()" [formGroup]="formgroup">
-    <div class="input">
+<div id="recomendacion">
+  <div id="recomendacion-wrapper">
+    <h1>Enviar recomendacion a {{ mascota.nombre }}</h1>
+
+    <form action="" [formGroup]="formgroup">
+      <div class="input">
         <label for="">Sobre</label>
-        <input type="text" name="" id="" formControlName="sobre">
-    </div>
-    <div class="input">
+        <input type="text" name="" id="" formControlName="sobre" />
+      </div>
+      <div class="input">
         <label for="">Texto</label>
         <textarea name="" id="" formControlName="texto"></textarea>
-    </div>
-    
-    <div id="button">
-        <input type="submit" value="Enviar">
-    </div>
-    
-  </form>
+      </div>
+
+      <div id="button">
+        <input type="submit" value="Enviar" (click)="(sendRecomendacion())" />
+        @if (!showCita) {
+        <button (click)="showDateInputs()">Añadir cita</button>
+        } @else {
+        <button (click)="hideDateInputs()">Cancel Cita</button>
+        }
+      </div>
+    </form>
+  </div>
+  @if (showCita) {
+  <app-add-cita></app-add-cita>
+  }
 </div>

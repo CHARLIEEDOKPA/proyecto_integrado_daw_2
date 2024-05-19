@@ -2,11 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IncidenciaRequest } from './incidencia-request';
 import { Incidencia } from './incidencia';
+import { IncidenciaDto } from './incidencia-dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IncidenciaService {
+
 
   constructor(private httpClient:HttpClient) { }
 
@@ -29,6 +31,10 @@ export class IncidenciaService {
   }
 
   public getIncidenciasByDoctor() {
-    return this.httpClient.get<Incidencia[]>(`${this.URL}/doctor`)
+    return this.httpClient.get<IncidenciaDto[]>(`${this.URL}/doctor`)
+  }
+
+  getIncidenciaByDuenyo() {
+    return this.httpClient.get<Incidencia[]>(`${this.URL}/duenyo`)
   }
 }

@@ -1,9 +1,13 @@
 package org.iesbelen.veterinario.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.iesbelen.veterinario.dto.CitaDTO;
+import org.iesbelen.veterinario.mapper.CitaMapper;
 import org.iesbelen.veterinario.model.Cita;
+import org.iesbelen.veterinario.model.Doctor;
 import org.iesbelen.veterinario.model.Duenyo;
 import org.iesbelen.veterinario.model.Mascota;
 import org.iesbelen.veterinario.repo.CitaRepository;
@@ -22,7 +26,13 @@ public class CitaService {
     private MascotaService mascotaService;
 
     @Autowired
+    private CitaMapper citaMapper;
+
+    @Autowired
     private DuenyoService duenyoService;
+
+    @Autowired
+    private DoctorService doctorService;
 
     public List<Cita> getAllCitas() {
         return citaRepository.findAll();
@@ -90,7 +100,7 @@ public class CitaService {
     }
 
     public boolean freeReservedTimeDate(Long id_doctor, CitaRequest citaRequest) {
-        return !citaRepository.getCitaByDateTime(citaRequest.getTime().toString(), citaRequest.getDate().toString(), id_doctor).isPresent();
+        return !citaRepository.getCitaByDateTime(citaRequest.getTime(), citaRequest.getDate(), id_doctor).isPresent();
     }
 
     public Cita buildCita(CitaRequest citaRequest, Long id_doctor) {
@@ -100,6 +110,25 @@ public class CitaService {
         .time(citaRequest.getTime())
         .date(citaRequest.getDate())
         .build();
+    }
+
+    public List<CitaDTO> citasToDto(List<Cita> citas) {
+        List<CitaDTO> citaDTOs =  new ArrayList<>();
+        citas.forEach(c -> {
+            Optional<Doctor> opt_doctor = doctorService.getDoctorById(c.getId_doctor());
+            Optional<Mascota> opt_mascota =  mascotaService.getMascotaById(c.getId_mascota());
+
+            if (opt_doctor.isPresent() && opt_mascota.isPresent()) {
+                Mascota mascota = opt_mascota.get();
+                Doctor doctor = opt_doctor.get();
+                CitaDTO citaDTO = citaMapper.citaToDto(c, doctor, mascota, c.getId_doctor(),c.getId());
+                citaDTOs.add(citaDTO);
+            }
+            
+        });
+
+
+        return citaDTOs;
     }
     
 }

@@ -4,6 +4,12 @@
 
 #recomendacion {
     padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+app-add-cita {
+    align-self: center;
 }
 
 h1{
@@ -50,19 +56,24 @@ textarea {
     justify-content:center;
   }
 
-  input[type=submit] {
+  input[type=submit],button  {
     padding: 20px;
     background-color: #f38181;
     border: 0;
     font-size: 20px;
     border-radius: 10px;
     margin-left: 66px;
+    transition: 300ms;
   }
 
   .input label{
     align-self: center;
   }
 
+  button:hover, input[type=submit]:hover {
+    cursor: pointer;
+    transform: scale(0.9);
+  }
 
 
 

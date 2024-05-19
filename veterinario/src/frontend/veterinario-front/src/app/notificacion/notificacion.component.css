@@ -20,7 +20,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     transition: 300ms;
-    
+    margin-bottom: 20px;
     
 }
 

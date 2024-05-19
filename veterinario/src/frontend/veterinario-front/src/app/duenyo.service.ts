@@ -7,6 +7,7 @@ import { Duenyo } from './duenyo';
   providedIn: 'root'
 })
 export class DuenyoService {
+ 
 
   constructor(private httpCliente:HttpClient) { }
 
@@ -18,6 +19,10 @@ export class DuenyoService {
 
   public getDuenyoByIdMascota(id:number):Observable<Duenyo> {
     return this.httpCliente.get<Duenyo>(`${this.URL}/mascota/${id}`)
+  }
+
+  getDuenyoByIncidencia(id: number) {
+    return this.httpCliente.get<Duenyo>(`${this.URL}/incidencia/${id}`)
   }
 
 }

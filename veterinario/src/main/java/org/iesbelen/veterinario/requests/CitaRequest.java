@@ -3,7 +3,10 @@ package org.iesbelen.veterinario.requests;
 import java.sql.Date;
 import java.sql.Time;
 
-import jakarta.validation.constraints.NotNull;
+import org.iesbelen.veterinario.config.SqlTimeDeserializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,11 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CitaRequest {
-    @NotNull
-    private String rol;
 
     private Date date;
 
+    @JsonDeserialize(using = SqlTimeDeserializer.class)
     private Time time;
 
     private long id_mascota;

@@ -1,3 +1,4 @@
+import { RecomendacionViewComponent } from './recomendacion-view/recomendacion-view.component';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
@@ -6,6 +7,7 @@ import { IncidenciaReportComponent } from './incidencia-report/incidencia-report
 import { NotificacionComponent } from './notificacion/notificacion.component';
 import { IncidenciaComponent } from './incidencia/incidencia.component';
 import { RecomendacionComponent } from './recomendacion/recomendacion.component';
+import { CitasComponent } from './citas/citas.component';
 
 export const routes: Routes = [
     {component:MainComponent,path:""},
@@ -15,5 +17,7 @@ export const routes: Routes = [
     {component:IncidenciaReportComponent, path:"report/:id"},
     {component:NotificacionComponent, path:"notificaciones"},
     {component:IncidenciaComponent, path:"incidencia/:id"},
-    {component:RecomendacionComponent, path:"recomendacion/:id"}
+    {component:RecomendacionComponent, path:"recomendacion/:id"},
+    {component:RecomendacionViewComponent, path:"recomendacion/view/:id"},
+    {component:CitasComponent, path:"citas"}
 ];

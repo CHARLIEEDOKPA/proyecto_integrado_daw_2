@@ -7,16 +7,18 @@
   <div id="right-side">
     <ul>
       @if (rol == "duenyo") {
-      <li>Citas</li>
       <li>Galería</li>
       } @if (rol == "doctor") {
-      <li>Citas</li>
+        
       }
     </ul>
     <div id="icons">
       @if (rol != "administrador") {
+        <i class="fa-solid fa-calendar" (click)="redirectToCitas()"></i>
         @if (lenght > 0) {
           <i class="fa-solid fa-bell" id="yellow-bell" (click)="redirectToNotifications()"></i>
+        } @else {
+          <i class="fa-regular fa-bell"  (click)="redirectToNotifications()"></i>
         }
       }
       <i class="fa-solid fa-right-from-bracket" (click)="logout()"></i>

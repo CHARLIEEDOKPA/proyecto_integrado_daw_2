@@ -1,0 +1,50 @@
+#caja {
+    background-color: #F38181;
+    width: 1010px;
+    margin: 0 auto;
+    padding: 30px;
+    height: 500px;
+    border-radius: 10px;
+}
+
+#recomendacion {
+    margin-bottom: 40px;
+    font-family: 'Manjari';
+    padding: 30px;
+}
+
+h2,h4 {
+    font-weight: bolder;
+}
+
+h2 {
+    font-size: 40px;
+}
+
+h4 {
+    font-size: 30px;
+}
+
+p {
+    font-size: 21px;
+}
+
+#button {
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    background-color: #F38181;
+    border: 0;
+    padding: 24px;
+    font-size: 30px;
+    border-radius: 10px;
+    transition: 300ms;
+}
+
+button:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+}

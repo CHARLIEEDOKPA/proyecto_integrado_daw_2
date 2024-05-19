@@ -3,6 +3,57 @@
 @import url(https://fonts.googleapis.com/css?family=Manjari:100,regular,700);
 @import url(https://fonts.googleapis.com/css?family=Rowdies:300,regular,700);
 
+
 body {
     margin: 0 auto;
 }
+
+.bs-datepicker {
+    margin-top: 20px;
+    background-color: #f8f9fa; 
+    font-family: 'Manjari';/* Cambia el color de fondo */
+  }
+  
+  .bs-datepicker .bs-datepicker-head {
+    background-color: #f8f9fa; 
+    display: flex;
+    justify-content: center; /* Cambia el color del texto del encabezado */
+  }
+  .bs-datepicker .bs-datepicker-head button {
+    background-color: #F38181;
+    border: 0;
+    border-radius: 10px;
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  .bs-datepicker .bs-datepicker-body {
+    background-color: white; /* Cambia el color de fondo del cuerpo */
+  }
+
+  .bs-datepicker .bs-datepicker-body:hover {
+    cursor: pointer;
+  }
+
+  timepicker input{
+    font-family: 'Manjari';
+    font-size: 20px;
+  }
+
+  timepicker button {
+    background-color: #F38181;
+    border: 0;
+    border-radius: 10px;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  timepicker button:hover {
+    cursor: pointer;
+  }
+
+  timepicker td a span{
+    color: #F38181;
+    transform: scale(1.2);
+  }
+  

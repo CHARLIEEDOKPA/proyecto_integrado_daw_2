@@ -1,9 +1,13 @@
 package org.iesbelen.veterinario.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.iesbelen.veterinario.dto.RecomendacionDTO;
+import org.iesbelen.veterinario.mapper.RecomendacionMapper;
 import org.iesbelen.veterinario.model.Credenciales;
+import org.iesbelen.veterinario.model.Doctor;
 import org.iesbelen.veterinario.model.Mascota;
 import org.iesbelen.veterinario.model.Recomendacion;
 import org.iesbelen.veterinario.repo.RecomendacionRepository;
@@ -20,8 +24,16 @@ public class RecomendacionService {
     @Autowired
     private RecomendacionRepository recomendacionRepository;
 
+    
+    @Autowired
+    private RecomendacionMapper recomendacionMapper;
+
     @Autowired
     private MascotaService mascotaService;
+
+
+    @Autowired
+    private DoctorService doctorService;
 
     synchronized public Recomendacion saveRecomendación(RecomendacionRequest recomendacionRequest,
             Credenciales credenciales) {
@@ -75,6 +87,29 @@ public class RecomendacionService {
 
     public void readRecomendacion(Long id_recomendacion) {
         this.recomendacionRepository.readRecomendacion(id_recomendacion);
+    }
+
+    public List<RecomendacionDTO> getRecomendacionesDTO(List<Recomendacion> recomendaciones) {
+        List<RecomendacionDTO> recomendacionesDTO = new ArrayList<>();
+        recomendaciones.forEach(x -> {
+            Optional<Doctor> opt = doctorService.getDoctorByRecomendacion(x.getId());
+            if (opt.isPresent()) {
+                Doctor doctor = opt.get();
+                RecomendacionDTO recomendacionDTO = recomendacionMapper.recomendacionToDTO(doctor, x ,x.getId());
+                recomendacionesDTO.add(recomendacionDTO);
+            }
+        }) ;
+        return recomendacionesDTO;
+    }
+
+    public RecomendacionDTO getRecomendacionByIdDTO(Recomendacion recomendacion) {
+        Optional<Doctor> opt = doctorService.getDoctorByRecomendacion(recomendacion.getId());
+        if (opt.isPresent()) {
+            Doctor doctor = opt.get();
+            RecomendacionDTO recomendacionDTO = recomendacionMapper.recomendacionToDTO(doctor, recomendacion ,recomendacion.getId());
+            return recomendacionDTO;
+        }
+        return null;
     }
 
 }

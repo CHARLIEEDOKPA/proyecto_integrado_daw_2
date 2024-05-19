@@ -5,21 +5,33 @@
     
     @if (rol === "duenyo") { 
     
-       @for (recomendacion of recomendacionDoctorList; track recomendacion.id) {
+       @for (recomendacion of recomendaciones; track recomendacion.id) {
 
         <div class="notif" (click)="readAndRedirectViewRecomendacion(recomendacion.id)">
             <div class="first-col">
                 <p>Dr {{getDoctorFullName(recomendacion.doctor)}}</p>
-                <p class="sobre">{{recomendacion.recomendacion.sobre}}</p>
+                <p class="sobre">{{recomendacion.sobre}}</p>
             </div>
 
-            <p class="status">{{recomendacionLeido(recomendacion.recomendacion)}}</p>
+            <p class="status">{{checkLeido(recomendacion)}}</p>
             
         </div>
        }
         
 
     } @else {
+
+        @for (incidencia of incidencias; track incidencia.id) {
+            <div class="notif" (click)="redirectToIncidencia(incidencia.id)">
+                <div class="first-col">
+                    <p>{{getDuenyoFullName(incidencia.duenyo)}}</p>
+                    <p class="sobre">Nueva incidencia de la mascota del duenyo {{getDoctorFullName(incidencia.duenyo)}}</p>
+                </div>
+    
+                <p class="status">{{checkLeido(incidencia)}}</p>
+                
+            </div>
+        } 
     
      } 
 </div>

@@ -1,0 +1,4 @@
+<div class="container mt-3">
+    <input  (change)="getDate()" id="fecha" type="text" placeholder="Escoge una fecha" class="form-control" bsDatepicker [bsConfig]="datePickerConfig">
+    <timepicker [(ngModel)]="date" (ngModelChange)="onTimeChange($event)"></timepicker>
+  </div>

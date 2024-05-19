@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
     schema = "veterinario_proyecto_integrado"
 )
 public class Recomendacion {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

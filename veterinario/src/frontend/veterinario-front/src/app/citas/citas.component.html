@@ -1,0 +1,16 @@
+<app-navbar [rol]="rol"></app-navbar>
+<div id="citas">
+    @if (rol === "duenyo") {
+        <h1>Tus citas</h1>
+        @for (cita of citas; track cita.id) {
+            <div class="cita {{status(cita)}}">
+                <h2>{{getFullDate(cita.date)}} {{cita.time}}</h2>
+                <p>Cita cita con el doctor {{cita.doctor.nombre}} {{cita.doctor.apellidos1}}</p>
+            </div>
+            
+        }
+    } @else {
+        <h1>Citas hechas</h1>
+    }
+
+</div>

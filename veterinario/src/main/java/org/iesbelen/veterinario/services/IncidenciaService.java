@@ -1,8 +1,12 @@
 package org.iesbelen.veterinario.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.iesbelen.veterinario.dto.IncidenciaDTO;
+import org.iesbelen.veterinario.mapper.IncidenciaMapper;
+import org.iesbelen.veterinario.model.Duenyo;
 import org.iesbelen.veterinario.model.Incidencia;
 import org.iesbelen.veterinario.model.Mascota;
 import org.iesbelen.veterinario.repo.IncidenciaRepository;
@@ -20,6 +24,12 @@ public class IncidenciaService {
 
     @Autowired
     private MascotaService mascotaService;
+
+    @Autowired
+    private IncidenciaMapper incidenciaMapper;
+
+    @Autowired
+    private DuenyoService duenyoService;
 
     public Incidencia saveIncidencia(IncidenciaRequest incidenciaRequest) {
         Mascota mascota = mascotaService.getMascotaById(incidenciaRequest.getId_mascota()).get();
@@ -102,6 +112,28 @@ public class IncidenciaService {
 
     public List<Incidencia> getIncidenciasByDoctor(Long id) {
         return this.incidenciaRepository.getListIncidenciaByDoctor(id);
+    }
+
+    public IncidenciaDTO getIncidenciaDTO(Incidencia incidencia) {
+       Optional<Duenyo> opt = duenyoService.getDuenyoByIncidenciaId(incidencia.getId_mascota());
+       if (opt.isPresent()) {
+        Duenyo duenyo = opt.get();
+        IncidenciaDTO incidenciaDTO = incidenciaMapper.incidenciaToDTO(incidencia, duenyo, incidencia.getId());
+        return incidenciaDTO;
+       }
+       return null;
+    }
+
+    public List<IncidenciaDTO> getListIncidenciaDTO(List<Incidencia> incidencias) {
+        List<IncidenciaDTO> incidenciaDTOs =  new ArrayList<>();
+        incidencias.forEach(x -> {
+          Optional<Duenyo> opt = duenyoService.getDuenyoByIncidenciaId(x.getId());
+          if (opt.isPresent()) {
+            Duenyo duenyo = opt.get();
+            incidenciaDTOs.add(incidenciaMapper.incidenciaToDTO(x, duenyo, x.getId()));
+          }  
+        });
+        return incidenciaDTOs;
     }
 
 }

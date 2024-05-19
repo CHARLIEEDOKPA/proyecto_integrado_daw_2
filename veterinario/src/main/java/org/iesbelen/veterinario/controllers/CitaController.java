@@ -2,6 +2,7 @@ package org.iesbelen.veterinario.controllers;
 
 import java.util.List;
 
+import org.iesbelen.veterinario.dto.CitaDTO;
 import org.iesbelen.veterinario.model.Cita;
 import org.iesbelen.veterinario.requests.CitaRequest;
 import org.iesbelen.veterinario.services.CitaService;
@@ -72,14 +73,15 @@ public class CitaController {
     }
 
     @GetMapping("get/duenyo")
-    public ResponseEntity<List<Cita>> getCitasOfDuenyo(@RequestHeader("Authorization") String bearer) {
+    public ResponseEntity<List<CitaDTO>> getCitasOfDuenyo(@RequestHeader("Authorization") String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         Long id = jwtService.getIdFromToken(token);
 
         if (rol.equals("duenyo")) {
             List<Cita> citas = citaService.geCitasByDuenyo(id);
-            return new ResponseEntity<>(citas, HttpStatus.OK);
+            List<CitaDTO> citaDTOs = citaService.citasToDto(citas);
+            return new ResponseEntity<>(citaDTOs, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

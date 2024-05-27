@@ -47,7 +47,7 @@ export class IncidenciaComponent implements OnInit{
                 this.duenyoService.getDuenyoByIdMascota(this.mascota.id).subscribe(x => this.duenyo = x)
             })
             
-        } )
+        } , () => this.router.navigate(['main']))
         
     }
 

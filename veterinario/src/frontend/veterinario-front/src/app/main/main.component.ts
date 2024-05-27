@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { Credentials } from '../credentials';
 import { DuenyoComponent } from "../duenyo/duenyo.component";
 import { DoctorComponent } from "../doctor/doctor.component";
+import { AdminComponent } from "../admin/admin.component";
 
 @Component({
     selector: 'app-main',
     standalone: true,
     templateUrl: './main.component.html',
     styleUrl: './main.component.css',
-    imports: [NavbarComponent, DuenyoComponent, DoctorComponent]
+    imports: [NavbarComponent, DuenyoComponent, DoctorComponent, AdminComponent]
 })
 
 export class MainComponent implements OnInit{

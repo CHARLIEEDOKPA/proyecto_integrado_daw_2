@@ -1,5 +1,6 @@
 export interface Duenyo {
 
+
     id: number
   nombre: string
   apellidos1: string
@@ -8,5 +9,6 @@ export interface Duenyo {
   nacimiento: number
   email: string
   telefono: string
+  foto: string
   
 }

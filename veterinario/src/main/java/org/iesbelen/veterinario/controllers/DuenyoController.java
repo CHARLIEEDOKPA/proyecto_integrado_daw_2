@@ -89,14 +89,28 @@ public class DuenyoController {
         String rol = jwtService.getRolFromToken(token);
         List<String> roles = Arrays.asList("duenyo","administrador");
         if (roles.contains(rol)) {
-            Duenyo duenyo = duenyoService.getDuenyoById(id).get();
-            if (duenyo != null && duenyo.isActivo()) {
+            Optional<Duenyo> opt = duenyoService.getDuenyoById(id);
+            
+            if (opt.isPresent()) {
+                Duenyo duenyo = opt.get();
                 return new ResponseEntity<>(duenyo,HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+    @GetMapping("find/{pattern}")
+    public ResponseEntity<List<Duenyo>> getDuenyosByPattern(@PathVariable String pattern,@RequestHeader("Authorization")String bearer) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        if (rol.equals("duenyo")) {
+            List<Duenyo> duenyos = duenyoService.getDuenyosByPattern(pattern.toLowerCase());
+            return new ResponseEntity<>(duenyos,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+    
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteDuenyo(@PathVariable Long id, @RequestHeader("Authorization") String bearer) {

@@ -14,8 +14,12 @@ import lombok.NoArgsConstructor;
 
 public class DuenyoEditRequest {
 
+
+
     @NotNull
     private long id;
+
+    private String foto;
 
     @NotBlank
     private String nombre;

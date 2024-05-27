@@ -31,7 +31,7 @@ public class Publicacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column( nullable = false, length = 3000 )
+    @Column( nullable = false, columnDefinition = "longblob")
     private String photo_url;
 
     @Column(nullable = true, length = 1000)
@@ -47,7 +47,7 @@ public class Publicacion {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_publicacion",referencedColumnName = "id")
     private List<Comentario> comentarios;
-
+    @JsonIgnore
     private boolean activo;
     
 

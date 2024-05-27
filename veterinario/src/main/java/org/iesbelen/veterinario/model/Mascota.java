@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -71,6 +72,8 @@ public class Mascota {
     @JoinColumn(name = "id_mascota",referencedColumnName = "id")
     private List<Cita> citas;
 
+    @Lob
+    @Column(columnDefinition = "longblob")
     private String foto;
     
 

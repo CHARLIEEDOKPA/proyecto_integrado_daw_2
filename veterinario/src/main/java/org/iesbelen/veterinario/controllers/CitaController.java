@@ -72,7 +72,7 @@ public class CitaController {
         return new ResponseEntity<>("Invalid JSON Format or JSON missing", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("get/duenyo")
+    @GetMapping("get")
     public ResponseEntity<List<CitaDTO>> getCitasOfDuenyo(@RequestHeader("Authorization") String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
@@ -84,23 +84,15 @@ public class CitaController {
             return new ResponseEntity<>(citaDTOs, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
-    @GetMapping("get/doctor")
-    public ResponseEntity<List<Cita>> getCitasOfDoctors(@RequestHeader("Authorization") String bearer) {
-        String token = jwtService.getSubsTringToken(bearer);
-        String rol = jwtService.getRolFromToken(token);
-        Long id = jwtService.getIdFromToken(token);
-
         if (rol.equals("doctor")) {
-            List<Cita> citas = citaService.geCitasByDuenyo(id);
-            return new ResponseEntity<>(citas,HttpStatus.OK);
+            List<Cita> citas = citaService.getCitasByIdDoctor(id);
+            List<CitaDTO> citaDTOs = citaService.citasToDto(citas);
+            return new ResponseEntity<>(citaDTOs, HttpStatus.OK); 
         }
 
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-
     }
+
     
 
 }

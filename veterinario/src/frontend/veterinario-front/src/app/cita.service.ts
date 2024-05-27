@@ -20,6 +20,6 @@ export class CitaService {
   }
 
   public getCitasByDuenyo() {
-    return this.httpClient.get<Cita[]>(`${this.URL}/get/duenyo`)
+    return this.httpClient.get<Cita[]>(`${this.URL}/get`)
   }
 }

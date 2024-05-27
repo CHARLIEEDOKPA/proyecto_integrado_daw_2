@@ -63,7 +63,7 @@ public class JwtService {
 
     public boolean getChangedPasswordFromToken(String token) {
         Claims claims = getAllClaims(token);
-        return (boolean) claims.get("changedPassowrd");
+        return (boolean) claims.get("changedPassword");
     }
 
 

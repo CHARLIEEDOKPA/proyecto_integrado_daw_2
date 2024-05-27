@@ -1,0 +1,37 @@
+<app-navbar rol="administrador"></app-navbar>
+
+<div id="mascota">
+    <h1>Detalle de doctor</h1>
+    <div id="form-wrapper">
+        <form action="">
+            <div class="input">
+                <label for="">Nombre: </label>
+                <input type="text" formControlName="nombre" value="{{doctor.nombre}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Apellidos 1: </label>
+                <input type="text" formControlName="nombre" value="{{doctor.apellidos1}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Apellidos 2: </label>
+                <input type="text" formControlName="nombre" value="{{doctor.apellidos2}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Nacimiento: </label>
+                <input type="text" value="{{doctor.nacimiento |date:'yyyy-MM-dd'}}"  disabled>
+            </div>
+            <div class="input">
+                <label for="">Email:</label>
+                <input type="text"  value="{{doctor.email}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Teléfono:</label>
+                <input type="text"  value="{{doctor.telefono}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Residencia:</label>
+                <input type="text"  value="{{doctor.residencia}}" disabled>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<app-navbar rol="duenyo"></app-navbar>
+<div id="publicaciones">
+    @if (autor()) {
+        <h1>TUS PUBLICACIONES</h1>
+    } @else { 
+        <h1>PUBLICACIONES</h1>
+    }
+    
+    <div id="imagenes-wrapper">
+        <div id="imagenes">
+            @for (publicacion of publicaciones; track publicacion.id) {
+                <img src="{{publicacion.photo_url}}" alt="" (click)="redirectPublicacion(publicacion.id)">
+            }
+        </div>
+    </div>
+    
+</div>

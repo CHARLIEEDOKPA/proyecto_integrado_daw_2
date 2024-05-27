@@ -38,6 +38,9 @@ public class Duenyo {
     @Column(nullable = false, length = 100)
     private String nombre;
 
+    @Column(columnDefinition = "longblob", nullable = true)
+    private String foto;
+
     @Column(nullable = false, length = 50)
     private String apellidos1;
 

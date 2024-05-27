@@ -1,0 +1,29 @@
+<app-navbar rol="administrador"></app-navbar>
+
+<div id="mascota">
+    <h1>Detalle de mascotaa</h1>
+    <div id="form-wrapper">
+        <form action="">
+            <div class="input">
+                <label for="">Nombre: </label>
+                <input type="text" formControlName="nombre" value="{{mascota.nombre}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Nacimiento: </label>
+                <input type="text" value="{{mascota.nacimiento |date:'yyyy-MM-dd'}}"  disabled>
+            </div>
+            <div class="input">
+                <label for="">Sexo:</label>
+                <input type="text"  value="{{mascota.sexo}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Raza: </label>
+                <input type="text"  value="{{mascota.raza}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Foto: </label>
+                <input type="text"  value="{{mascota.foto}}" disabled>
+            </div>
+        </form>
+    </div>
+</div>

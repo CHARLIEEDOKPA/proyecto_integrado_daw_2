@@ -1,0 +1,15 @@
+<app-navbar rol="duenyo"></app-navbar>
+<div id="result">
+    <h1>Resultados de {{PATTERN}}</h1>
+    <div id="duenyos">
+        @for (duenyo of duenyos; track duenyo.id) {
+            <div class="duenyo" (click)="redirectPublicaciones(duenyo.id)">
+                <img src="{{duenyo.foto ? duenyo.foto : '../../assets/img/user.jpg'}}" alt="">
+                <div class="name">
+                    <h2>{{fullName(duenyo)}}</h2>
+                </div>
+                
+            </div>
+        }
+    </div>
+</div>

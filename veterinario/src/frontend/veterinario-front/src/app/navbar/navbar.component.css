@@ -21,9 +21,41 @@ font-size: 90px;
 }
 
 
-#footer {
+#nav {
     display: flex;
     justify-content: space-around;
+}
+
+form {
+    display: flex;
+}
+
+#find {
+    display: flex;
+    margin-left: 180px;
+}
+
+
+#find form {
+    align-self: center;
+    display: flex;
+}
+
+form i {
+    align-self: center;
+   padding: 10px;
+   font-size: 25px;
+}
+
+form input {
+    margin-left: 50px;
+    align-items: center;
+    width: 400px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid;
+    font-size: 25px;
+    font-family: 'Manjari';
 }
 
 

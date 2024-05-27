@@ -3,11 +3,14 @@ package org.iesbelen.veterinario.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.iesbelen.veterinario.dto.ComentarioDTO;
+import org.iesbelen.veterinario.dto.PublicacionDTO;
 import org.iesbelen.veterinario.model.Comentario;
 import org.iesbelen.veterinario.model.MeGusta;
 import org.iesbelen.veterinario.model.Publicacion;
 import org.iesbelen.veterinario.requests.ComentarioRequest;
 import org.iesbelen.veterinario.services.ComentarioService;
+import org.iesbelen.veterinario.services.DuenyoService;
 import org.iesbelen.veterinario.services.JwtService;
 import org.iesbelen.veterinario.services.MeGustaService;
 import org.iesbelen.veterinario.services.PublicacionService;
@@ -23,14 +26,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
 
 @RequestMapping("publicacion")
-
 
 public class PublicacionController {
 
@@ -40,25 +41,69 @@ public class PublicacionController {
     @Autowired
     private PublicacionService publicacionService;
 
-    @Autowired 
+    @Autowired
     private MeGustaService meGustaService;
 
     @Autowired
+    private DuenyoService duenyoService;
+
+    @Autowired
     private ComentarioService comentarioService;
-    
-    @GetMapping("getall")
-    public ResponseEntity<List<Publicacion>> getPublicacionesByDuenyo(@RequestHeader("Authorization") String bearer) {
+
+    @GetMapping("getall/{id}")
+    public ResponseEntity<List<PublicacionDTO>> getPublicacionesByDuenyo(@PathVariable Long id,
+            @RequestHeader("Authorization") String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
-        Long id = jwtService.getIdFromToken(token);
+        if (rol.equals("duenyo")) {
+            Optional opt = duenyoService.getDuenyoById(id);
+            if (opt.isPresent()) {
+                List<Publicacion> publicaciones = publicacionService.getPublicacionesByDuenyo(id);
+                List<PublicacionDTO> publicacionesDTOs = publicacionService.getListDTO(publicaciones);
+                return new ResponseEntity<>(publicacionesDTOs, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return rol.equals("duenyo") ? new ResponseEntity<>(publicacionService.getPublicacionesByDuenyo(id), HttpStatus.OK)
-        :new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
     }
 
+    @PostMapping("add")
+    public ResponseEntity<Publicacion> addPublicacion(@RequestHeader("Authorization") String bearer,
+            @RequestBody Publicacion publicacion) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        Long id_duenyo = jwtService.getIdFromToken(token);
+        if (rol.equals("duenyo")) {
+            Publicacion savedPublicacion = publicacionService.addPublicacion(publicacion, id_duenyo);
+            return new ResponseEntity<>(savedPublicacion, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<PublicacionDTO> getPublicacionById(@PathVariable long id,@RequestHeader("Authorization") String bearer ) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+        if (rol.equals("duenyo")) {
+            Optional<Publicacion> opt = publicacionService.getPublicacionById(id);
+            if (opt.isPresent()) {
+                Publicacion publicacion = opt.get();
+                PublicacionDTO publicacionDTO = publicacionService.getPublicacionDTO(publicacion);
+                return new ResponseEntity<>(publicacionDTO,HttpStatus.OK);
+
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+    
+
     @PostMapping("megusta/{id}")
-    public ResponseEntity<String> meGusta(@PathVariable Long id_publicacion,@RequestHeader("Authorization") String bearer) {
-        
+    public ResponseEntity<String> meGusta(@PathVariable Long id,
+            @RequestHeader("Authorization") String bearer) {
+
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         Long id_duenyo = jwtService.getIdFromToken(token);
@@ -67,9 +112,9 @@ public class PublicacionController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        Optional<Publicacion> opt = publicacionService.getPublicacionById(id_publicacion);
+        Optional<Publicacion> opt = publicacionService.getPublicacionById(id);
         if (opt.isPresent()) {
-            MeGusta meGusta = meGustaService.buildMeGusta(id_duenyo,id_publicacion);
+            MeGusta meGusta = meGustaService.buildMeGusta(id_duenyo, id);
             meGustaService.addMeGusta(meGusta);
             return new ResponseEntity<>(HttpStatus.OK);
 
@@ -79,16 +124,17 @@ public class PublicacionController {
     }
 
     @PostMapping("nomegusta/{id}")
-    public ResponseEntity<String> postMethodName(@PathVariable Long id_publicacion,@RequestHeader("Authorization") String bearer) {
+    public ResponseEntity<String> postMethodName(@PathVariable Long id,
+            @RequestHeader("Authorization") String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         Long id_duenyo = jwtService.getIdFromToken(token);
 
         if (rol.equals("duenyo")) {
-            
-            Optional<Publicacion> opt = publicacionService.getPublicacionById(id_publicacion);     
+
+            Optional<Publicacion> opt = publicacionService.getPublicacionById(id);
             if (opt.isPresent()) {
-                meGustaService.deleteMeGusta(id_duenyo, id_publicacion);
+                meGustaService.deleteMeGusta(id_duenyo, id);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -98,7 +144,8 @@ public class PublicacionController {
     }
 
     @PostMapping("comentario/add")
-    public ResponseEntity<Comentario> addComentario(@RequestBody @Valid ComentarioRequest comentarioRequest, @RequestHeader("Authorization") String bearer) {
+    public ResponseEntity<ComentarioDTO> addComentario(@RequestBody @Valid ComentarioRequest comentarioRequest,
+            @RequestHeader("Authorization") String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         Long id = jwtService.getIdFromToken(token);
@@ -107,15 +154,12 @@ public class PublicacionController {
             if (comentarioService.duenyoAndPublicationExists(comentarioRequest.getId_publicacion(), id)) {
                 Comentario comentario = comentarioService.buildComentario(comentarioRequest, id);
                 Comentario newComentario = comentarioService.addComentario(comentario);
-                return new ResponseEntity<>(newComentario,HttpStatus.OK);
+                ComentarioDTO comentarioDTO = comentarioService.getComentarioDTO(newComentario);
+                return new ResponseEntity<>(comentarioDTO, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    
-    
-    
-    
 
 }

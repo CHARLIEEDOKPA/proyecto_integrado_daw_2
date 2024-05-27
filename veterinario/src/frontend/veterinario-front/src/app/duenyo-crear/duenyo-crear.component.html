@@ -1,0 +1,51 @@
+<app-navbar rol="administrador"></app-navbar>
+
+<div id="mascota">
+    <h1>Detalle de mascotaa</h1>
+    <div id="form-wrapper">
+        <form action="" [formGroup]="formgroup">
+            <div class="input" >
+                <label for="">Nombre: </label>
+                <input type="text" formControlName="nombre" >
+            </div>
+            <div class="input" >
+                <label for="">Email: </label>
+                <input type="text" formControlName="email" >
+            </div>
+            <div class="input">
+                <label for="">Apellidos 1:</label>
+                <input type="text" name="apellidos1" id="" formControlName="apellidos1" >
+            </div>
+            <div class="input">
+                <label for="">Apellidos 2:</label>
+                <input type="text" name="apellidos2" id="" formControlName="apellidos2" >
+            </div>
+            <div class="input" id="nacimiento">
+                <label for="">Nacimiento: </label>
+                <input type="date"  formControlName="nacimiento">
+            </div>
+           
+            <div class="input">
+                <label for="">Residencia:</label>
+                <input type="text" name="residencia" id=""  formControlName="residencia" >
+            </div>
+            <div class="input">
+                <label for="">Telefono:</label>
+                <input type="tel" name="telefono" id="" formControlName="telefono">
+            </div>
+            <div id="foto">
+                <div class="input">
+                    <label for="">Foto: </label>
+                    <input type="file" name="" id="" (change)="previewFile()">
+                </div>
+                <div id="img">
+                    <img src="" alt="">       
+                </div>
+            </div>
+           
+            <div id="button">
+                <input type="submit" value="Crear" (click)="create()">
+            </div>
+        </form>
+    </div>
+</div>

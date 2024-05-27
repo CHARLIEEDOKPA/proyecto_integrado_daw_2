@@ -2,7 +2,7 @@
 
 <div id="mascota">
     <div id="mascota-data">
-        <img src="{{mascota.foto != null ? mascota.foto: '../../assets/img/perro-19670.jpg'}}" alt="">
+        <img src="{{mascota.foto != null && !mascota.foto.startsWith('http')? mascota.foto : '../../assets/img/perro-19670.jpg'}}" alt="">
         <h2>{{mascota.nombre}}</h2>
         @if (rol == "doctor") {
             <h4>Dueño: {{duenyo.nombre}} {{duenyo.apellidos1}} {{duenyo.apellidos2}}</h4>

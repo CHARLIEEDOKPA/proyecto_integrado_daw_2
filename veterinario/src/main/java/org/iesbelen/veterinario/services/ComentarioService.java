@@ -1,7 +1,11 @@
 package org.iesbelen.veterinario.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.iesbelen.veterinario.dto.ComentarioDTO;
+import org.iesbelen.veterinario.mapper.ComentarioMapper;
 import org.iesbelen.veterinario.model.Comentario;
 import org.iesbelen.veterinario.model.Duenyo;
 import org.iesbelen.veterinario.model.Publicacion;
@@ -17,6 +21,9 @@ public class ComentarioService {
 
     @Autowired
     private ComentarioRepository comentarioRepository;
+
+    @Autowired
+    private ComentarioMapper comentarioMapper;
 
     @Autowired
     private PublicacionRepository publicacionRepository;
@@ -41,6 +48,26 @@ public class ComentarioService {
         Optional<Publicacion> opt_publicacion =  publicacionRepository.findById(id_publicacion);
 
         return opt_duenyo.isPresent() && opt_publicacion.isPresent();
+    }
+
+    public List<ComentarioDTO> getListComentariosDTOs(List<Comentario> comentarios) {
+        List<ComentarioDTO> comentarioDTOs = new ArrayList<>();
+        comentarios.forEach(c -> {
+            ComentarioDTO comentarioDTO = getComentarioDTO(c);
+            if (comentarioDTO != null) {
+                comentarioDTOs.add(comentarioDTO);
+            }
+        });
+        return comentarioDTOs;
+    }
+
+    public ComentarioDTO getComentarioDTO(Comentario comentario) {
+        Optional<Duenyo> opt_duenyo = duenyoRepository.findById(comentario.getId_duenyo());
+        if (opt_duenyo.isPresent()) {
+            Duenyo duenyo = opt_duenyo.get();
+            return comentarioMapper.comentarioToDTO(comentario, duenyo, comentario.getId());
+        }
+        return null;
     }
 
 }

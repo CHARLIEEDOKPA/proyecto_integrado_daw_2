@@ -11,4 +11,8 @@ export class LoginServiceService {
   login(login:any) {
     return this.httpCliente.post("http://localhost:8080/auth/login",login);
   }
+
+  changePassword(password:any) {
+    return this.httpCliente.post(`http://127.0.0.1:8080/auth/password/change`,password)
+  }
 }

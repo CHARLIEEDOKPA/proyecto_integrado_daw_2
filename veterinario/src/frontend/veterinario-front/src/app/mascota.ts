@@ -6,8 +6,8 @@ export interface Mascota {
     nombre: string
     nacimiento: number
     sexo: string
-    citas: any[]
-    foto: any
+    citas: any[] | null
+    foto: string
     raza:string
-    incidencias:Incidencia[]
+    incidencias:Incidencia[] | null
 }

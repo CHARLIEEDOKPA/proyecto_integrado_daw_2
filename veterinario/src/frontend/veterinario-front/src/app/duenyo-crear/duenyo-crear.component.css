@@ -1,0 +1,90 @@
+h1 {
+    text-align: center;
+    font-size: 40px;
+  }
+  
+  #form-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  
+  #mascota{
+    padding: 50px;
+  }
+  
+  .input {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  
+  label {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  
+  
+  input[type=text],
+  textarea {
+    background-color: #d9d9d9;
+    border: 0;
+    border-radius: 10px;
+  }
+  
+  textarea {
+      padding: 10px;
+  }
+  
+  #button {
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+  }
+  
+  input[type=submit] {
+      padding: 10px;
+      font-size: 20px;
+      background-color: #F38181;;
+      transition: 300ms;
+      border-radius: 10px;
+      border: 0;
+      
+  }
+  
+  input[type=submit]:hover {
+      transform: scale(0.9);
+      cursor: pointer;
+  }
+  
+  *, input[type=text] {
+    font-family: 'Manjari';
+  }
+
+  #nacimiento label{
+    align-self: center;
+  }
+  
+  
+  input[type=date],input[type=text] {
+    padding: 5px;
+    font-size: 20px;
+  }
+  
+  input[type].ng-invalid, textarea.ng-invalid {
+      border: 1px solid red;
+  }
+
+  img {
+    width: 200px;
+  }
+
+  #foto div{
+    display: flex;
+    justify-content: center;
+  }
+
+  #img {
+    display: flex;
+    justify-content: center;
+  }

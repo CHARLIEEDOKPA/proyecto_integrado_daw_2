@@ -19,6 +19,10 @@ h1 {
     
 }
 
+.today {
+    background-color: rgb(106, 213, 106);
+}
+
 .uncoming {
     background-color: rgb(244, 244, 119);
 }

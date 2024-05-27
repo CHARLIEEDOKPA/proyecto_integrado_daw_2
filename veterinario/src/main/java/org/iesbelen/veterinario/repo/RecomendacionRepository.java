@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface RecomendacionRepository extends JpaRepository<Recomendacion,Long>{
     
 
-    @Query(value = "SELECT R FROM Recomendacion R where R.id_mascota = (SELECT M.id from Mascota M where M.id_duenyo = :id_duenyo)")
+    @Query(value = "SELECT R FROM Recomendacion R where R.id_mascota IN (SELECT M.id from Mascota M where M.id_duenyo = :id_duenyo)")
     public List<Recomendacion> getRecomendacionesByDuenyo(@Param("id_duenyo") long id_duenyo);
     @Modifying
     @Transactional

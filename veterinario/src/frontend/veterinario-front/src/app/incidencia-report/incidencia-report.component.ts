@@ -42,6 +42,7 @@ export class IncidenciaReportComponent implements OnInit {
         let status = error.status;
         if (status == 401) {
           console.log('No puedes acceder a esta mascota');
+          this.route.navigate(['main'])
         }
 
         if (status == 400) {

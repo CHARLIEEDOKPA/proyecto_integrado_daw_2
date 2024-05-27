@@ -51,16 +51,13 @@ export class MascotaComponent implements OnInit {
     this.mascotaService.getMascota(this.ID).subscribe(
       (x) => {
         (this.mascota = x), x;
-        this.incidencias = this.mascota.incidencias
+        this.incidencias = this.mascota.incidencias!
         if(this.rol == "doctor") {
         this.duenyoService.getDuenyoByIdMascota(this.mascota.id).subscribe(x => this.duenyo = x)
       }
       },
       (x) => {
-        if (x.status === 401) {
-          console.log('NO PUEDES ACCEDER PORQUE NO ES TU MASCOTA');
-          this.router.navigate(['main ']);
-        }
+          this.router.navigate(['main']);
       }
     );
     setTimeout(() => {
@@ -81,7 +78,7 @@ export class MascotaComponent implements OnInit {
   }
   
   readAndRedirectIncidencia(id: number) {
-      this.incidenciaService.readIncidencia(id).subscribe()
+      this.incidenciaService.readIncidencia(id).subscribe(x => alert("Se ha leido"))
       this.router.navigate(['incidencia',id])
     }
     

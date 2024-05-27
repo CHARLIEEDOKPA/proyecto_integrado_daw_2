@@ -56,16 +56,6 @@ public class MascotaController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    @GetMapping("all")
-    public ResponseEntity<List<Mascota>> getAllMascotas(@RequestHeader("Authorization") String bearer) {
-        String token = jwtService.getSubsTringToken(bearer);
-        String rol = jwtService.getRolFromToken(token);
-        if (rol.equals("administrador")) {
-            return new ResponseEntity<>(mascotaService.getMascotas(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
     @GetMapping("{id}")
     public ResponseEntity<Mascota> getMascotaById(@PathVariable Long id,
             @RequestHeader("Authorization") String bearer) {
@@ -86,6 +76,7 @@ public class MascotaController {
                     return id_duenyo.equals(mascota.getId_doctor()) ? new ResponseEntity<>(mascota, HttpStatus.OK)
                             : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
+
                 return new ResponseEntity<>(mascota, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -101,6 +92,10 @@ public class MascotaController {
         String rol = jwtService.getRolFromToken(token);
         long id = jwtService.getIdFromToken(token);
         List<Mascota> mascotas;
+
+        if (rol.equals("administrador")) {
+            return new ResponseEntity<>(mascotaService.getMascotas(), HttpStatus.OK);
+        }
 
         if (rol.equals("duenyo")) {
             mascotas = mascotaService.getMascotaByDuenyo(id);

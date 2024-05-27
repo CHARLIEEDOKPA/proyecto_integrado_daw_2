@@ -1,0 +1,41 @@
+<app-navbar rol="administrador"></app-navbar>
+
+<div id="mascota">
+    <h1>Detalle de mascotaa</h1>
+    <div id="form-wrapper">
+        <form action="" [formGroup]="formgroup">
+            <div class="input" >
+                <label for="">Nombre: </label>
+                <input type="text" formControlName="nombre" [ngModel]="mascota.nombre">
+            </div>
+            <div class="input" id="nacimiento">
+                <label for="">Nacimiento: </label>
+                <input type="date"  formControlName="nacimiento" ngModel="{{mascota.nacimiento| date:'yyyy-MM-dd'}}">
+            </div>
+            <div class="input">
+                <label for="">Sexo:</label>
+                <select name="sex" id="" value="{{mascota.sexo}}" formControlName="sex" [ngModel]="mascota.sexo">
+                    <option value="macho">Macho</option>
+                    <option value="hembra">Hembra</option>
+                </select>
+            </div>
+            <div class="input">
+                <label for="">Raza: </label>
+                <input type="text" formControlName="raza" [ngModel]="mascota.raza"> 
+            </div>
+            <div id="foto">
+                <div class="input">
+                    <label for="">Foto: </label>
+                    <input type="file" name="" id="" (change)="previewFile()">
+                </div>
+                <div id="img">
+                    <img src="{{mascota.foto}}" alt="">       
+                </div>
+            </div>
+           
+            <div id="button">
+                <input type="submit" value="Editar" (click)="edit()">
+            </div>
+        </form>
+    </div>
+</div>

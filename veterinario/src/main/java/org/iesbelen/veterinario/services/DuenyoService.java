@@ -33,7 +33,7 @@ public class DuenyoService {
     }
 
     public List<Duenyo> getListDuenyo() {
-        return duenyoRepository.findAll();
+        return duenyoRepository.getActiveDuenyos(null);
     }
 
     public boolean deleteDuenyo(long id) {
@@ -60,6 +60,7 @@ public class DuenyoService {
         .email(registerRequest.getEmail())
         .nacimiento(registerRequest.getNacimiento())
         .residencia(registerRequest.getResidencia())
+        .foto(registerRequest.getFoto())
         .telefono(registerRequest.getTelefono())
         .build();
     }
@@ -87,7 +88,7 @@ public class DuenyoService {
         if (opt.isPresent()) {
             Duenyo duenyo = opt.get();
             if (id.equals(duenyoEditRequest.getId()) && duenyoEditRequest.getEmail().equals(duenyo.getEmail())) {
-                Duenyo editedDuenyo = buildDuenyoForEdit(duenyoEditRequest);
+                Duenyo editedDuenyo = buildDuenyoForEdit(duenyoEditRequest,duenyo);
                 duenyoRepository.save(editedDuenyo);
                 return editedDuenyo;
             }
@@ -95,7 +96,7 @@ public class DuenyoService {
         return null;
     }
 
-    public Duenyo buildDuenyoForEdit(DuenyoEditRequest duenyoEditRequest) {
+    public Duenyo buildDuenyoForEdit(DuenyoEditRequest duenyoEditRequest, Duenyo duenyo) {
         return Duenyo.builder()
         .id(duenyoEditRequest.getId())
         .nombre(duenyoEditRequest.getNombre())
@@ -106,6 +107,11 @@ public class DuenyoService {
         .nacimiento(duenyoEditRequest.getNacimiento())
         .residencia(duenyoEditRequest.getResidencia())
         .telefono(duenyoEditRequest.getTelefono())
+        .comentarios(duenyo.getComentarios())
+        .megustas(duenyo.getMegustas())
+        .publicaciones(duenyo.getPublicaciones())
+        .mascotas(duenyo.getMascotas())
+        .foto(duenyoEditRequest.getFoto())
         .build();
     }
 
@@ -115,6 +121,10 @@ public class DuenyoService {
 
     public Optional<Duenyo> getDuenyoByIncidenciaId(long id) {
         return duenyoRepository.getDuenyoByMascotaId(id);
+    }
+
+    public List<Duenyo> getDuenyosByPattern(String pattern) {
+        return duenyoRepository.getDuenyosByPattern(pattern);
     }
 
 

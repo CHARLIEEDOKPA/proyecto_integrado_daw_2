@@ -1,0 +1,37 @@
+<app-navbar rol="administrador"></app-navbar>
+
+<div id="mascota">
+    <h1>Detalle de dueño</h1>
+    <div id="form-wrapper">
+        <form action="">
+            <div class="input">
+                <label for="">Nombre: </label>
+                <input type="text" formControlName="nombre" value="{{duenyo.nombre}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Apellidos 1: </label>
+                <input type="text" formControlName="nombre" value="{{duenyo.apellidos1}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Apellidos 2: </label>
+                <input type="text" formControlName="nombre" value="{{duenyo.apellidos2}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Nacimiento: </label>
+                <input type="text" value="{{duenyo.nacimiento |date:'yyyy-MM-dd'}}"  disabled>
+            </div>
+            <div class="input">
+                <label for="">Email:</label>
+                <input type="text"  value="{{duenyo.email}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Teléfono:</label>
+                <input type="text"  value="{{duenyo.telefono}}" disabled>
+            </div>
+            <div class="input">
+                <label for="">Residencia:</label>
+                <input type="text"  value="{{duenyo.residencia}}" disabled>
+            </div>
+        </form>
+    </div>
+</div>

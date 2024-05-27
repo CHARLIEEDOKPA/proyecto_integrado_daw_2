@@ -70,7 +70,7 @@ public class IncidenciaController {
         if (rol.equals("doctor")) {
             Optional<Incidencia> opt = incidenciaService.getIncidenciaById(id);
             if (opt.isPresent()) {
-                incidenciaService.readIncidencia(id);
+                incidenciaService.readIncidencia(id_incidencia);
                 return id.equals(opt.get().getId_doctor()) ? new ResponseEntity<>(HttpStatus.OK)
                         : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }

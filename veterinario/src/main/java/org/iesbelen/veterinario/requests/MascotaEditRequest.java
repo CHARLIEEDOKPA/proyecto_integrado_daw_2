@@ -29,7 +29,6 @@ public class MascotaEditRequest {
     @NotBlank
     private String sexo;
 
-    @NotBlank
     private String foto;
 
     @NotBlank

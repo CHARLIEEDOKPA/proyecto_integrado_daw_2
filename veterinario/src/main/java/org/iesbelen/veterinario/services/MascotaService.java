@@ -92,7 +92,7 @@ public class MascotaService {
             Mascota mascota = opt.get();
             if (id.equals(mascotaEditRequest.getId())) {
                 Mascota editedMascota = buildMascotaByEdit(mascotaEditRequest,mascota);
-                mascotaRepository.save(mascota);
+                mascotaRepository.save(editedMascota);
                 return editedMascota;   
             }
         }
@@ -110,6 +110,9 @@ public class MascotaService {
         .nacimiento(mascotaEditRequest.getNacimiento())
         .id_doctor(mascota.getId_doctor())
         .id_duenyo(mascota.getId_duenyo())
+        .citas(mascota.getCitas())
+        .incidencias(mascota.getIncidencias())
+        .recomendaciones(mascota.getRecomendaciones())
         .build();
     }
 

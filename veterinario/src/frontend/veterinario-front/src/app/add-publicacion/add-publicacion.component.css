@@ -1,0 +1,103 @@
+* {
+    font-family: 'Manjari';
+}
+
+#subir-publicacion {
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 50px;
+}
+
+#content {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+
+#image {
+   
+    
+}
+
+
+button {
+    padding: 10px;
+    font-size: 20px;
+    border: 0;
+    border-radius: 10px;
+    background-color: #F38181;
+}
+
+#zero {
+width: 0;
+height: 0;
+}
+
+
+#max {
+    height: 700px;
+    width: 900px;
+}
+
+#select-image {
+    background-color: gainsboro;
+    height: 700px;
+    width: 900px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#select-image i{
+font-size: 60px;
+}
+
+img {
+    border-radius: 10px;
+}
+
+
+.button {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.input {
+    padding: 40px;
+    display: flex;
+}
+
+label {
+    margin-right: 20px;
+    font-size: 25px;
+}
+
+textarea  {
+    width: 350px;
+    height: 200px;
+    padding: 20px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+input {
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+form .button button{
+    margin-left: 140px;
+} 

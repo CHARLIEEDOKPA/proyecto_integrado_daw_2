@@ -35,30 +35,44 @@ public class DoctorService {
         return doctorRepository.getActiveDoctors();
     }
 
-    public boolean modifyDoctor(Long id, Doctor doctor) {
-        Optional<Doctor> opt = doctorRepository.findById(id);
+    public Doctor modifyDoctor(Long id, Doctor doctorEdit) {
+        Optional<Doctor> opt = doctorRepository.getActiveDoctor(id);
         if (opt.isPresent()) {
+            Doctor doctor = opt.get();
             boolean equals = id.equals(doctor.getId());
             if (equals) {
-                doctorRepository.save(doctor);
+                Doctor editedDoctor = buildDoctorByEdit(doctor,doctorEdit);
+                doctorRepository.save(editedDoctor);
+                return editedDoctor;
             }
-            return equals;
         }
-        return false;
+        return null;
     }
 
-    public boolean deleteDoctor(long id) {
-        Optional<Doctor> opt =  doctorRepository.getActiveDoctor(id);
-        if (opt.isPresent()) {
+    private Doctor buildDoctorByEdit(Doctor doctor, Doctor doctorEdit) {
+        return Doctor.builder()
+            .id(doctor.getId())
+            .activo(true)
+            .nombre(doctorEdit.getNombre())
+            .nacimiento(doctorEdit.getNacimiento())
+            .apellidos1(doctorEdit.getApellidos1())
+            .apellidos2(doctorEdit.getApellidos2())
+            .email(doctor.getEmail())
+            .telefono(doctorEdit.getTelefono())
+            .residencia(doctorEdit.getResidencia())
+            .citas(doctor.getCitas())
+            .mascotas(doctor.getMascotas())
+            .recomendaciones(doctor.getRecomendaciones())
+            .incidencias(doctor.getIncidencias())
+            .build();
 
+    }
+
+    public void deleteDoctor(long id) {
             doctorRepository.deleteDoctor(id);
             credencialesService.removeCredencial("doctor", id);
             changeMascotasDoctor(id);
 
-            return true;
-        }
-        return false;
-        
     }
 
     private void changeMascotasDoctor(long id) {

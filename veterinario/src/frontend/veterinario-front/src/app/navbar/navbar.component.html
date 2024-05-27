@@ -1,13 +1,21 @@
-<div id="footer">
+<div id="nav">
   <div id="logo" (click)="redirectToMain()">
     <i class="fa-solid fa-paw"></i>
     <h3>VETERINARIO BELEN</h3>
   </div>
+@if (rol == "duenyo") {
+  <div id="find">
+    <form action="" (submit)="find($event)">
+      <input type="text">
+      <i class="fa-solid fa-magnifying-glass" (click)="find()"></i>
+    </form>
+  </div>
+}
 
   <div id="right-side">
     <ul>
       @if (rol == "duenyo") {
-      <li>Galería</li>
+      <li (click)="redirectToPublicaciones()">Tu red social</li>
       } @if (rol == "doctor") {
         
       }

@@ -47,8 +47,10 @@ export class CitasComponent implements OnInit{
 
      if(actualDateString === dateCitaString) {
       return "today"
-     } else {
+     } else if(dateCita.getTime() < actualDate.getTime()) {
       return "uncoming"
+     } else {
+      return "past"
      }
     }
 

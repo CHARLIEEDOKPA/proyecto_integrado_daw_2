@@ -45,7 +45,7 @@ export class RecomendacionComponent implements OnInit {
   ngOnInit(): void {
     this.mascotaService
       .getMascota(this.ID)
-      .subscribe((x) => (this.mascota = x));
+      .subscribe((x) => (this.mascota = x),() => this.router.navigate(['main']));
     this.formgroup = new FormGroup({
       sobre: new FormControl('', [
         Validators.required,

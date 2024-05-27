@@ -49,43 +49,62 @@ public class AuthController {
     private JwtService jwtService;
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponse> test(@Valid@RequestBody UserPassword userPassword) {
+    public ResponseEntity<AuthResponse> test(@Valid @RequestBody UserPassword userPassword) {
         return ResponseEntity.ok(credencialesService.login(userPassword));
     }
 
     @PostMapping("register/duenyo")
-    public ResponseEntity<Duenyo> register(@RequestBody RegisterRequest registerRequest) {
-        Optional<Credenciales> opt = credencialesService.findCredencialByEmail(registerRequest.getEmail());
-        if (!opt.isPresent()) {
-            Duenyo duenyo = duenyoService.buildDuenyo(registerRequest);
-            Duenyo newDuenyo = duenyoService.addDuenyo(duenyo);
+    public ResponseEntity<Duenyo> registerDuenyo(@RequestBody RegisterRequest registerRequest,
+            @RequestHeader("Authorization") String bearer) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rolAdmin = jwtService.getRolFromToken(token);
 
-            String rol = "duenyo";
+        if (rolAdmin.equals("administrador")) {
+            Optional<Credenciales> opt = credencialesService.findCredencialByEmail(registerRequest.getEmail());
+            if (!opt.isPresent()) {
+                Duenyo duenyo = duenyoService.buildDuenyo(registerRequest);
+                Duenyo newDuenyo = duenyoService.addDuenyo(duenyo);
 
-            Credenciales credenciales = credencialesService.buildCredencial(registerRequest, newDuenyo.getId(), rol);
-            credencialesService.addCredencial(credenciales);
+                String rol = "duenyo";
 
-            return new ResponseEntity<>(newDuenyo, HttpStatus.CREATED);
+                Credenciales credenciales = credencialesService.buildCredencial(registerRequest, newDuenyo.getId(),
+                        rol);
+                credencialesService.addCredencial(credenciales);
 
+                return new ResponseEntity<>(newDuenyo, HttpStatus.CREATED);
+
+            }
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("register/doctor")
-    public ResponseEntity<Doctor> postMethodName(@RequestBody RegisterRequest registerRequest) {
-        Optional<Credenciales> opt = credencialesService.findCredencialByEmail(registerRequest.getEmail());
-        if (!opt.isPresent()) {
-            Doctor doctor = doctorService.buildDoctor(registerRequest);
-            Doctor newDoctor = doctorService.saveDoctor(doctor);
+    public ResponseEntity<Doctor> registerDoctor(@RequestBody RegisterRequest registerRequest,
+            @RequestHeader("Authorization") String bearer) {
 
-            String rol = "doctor";
+        String token = jwtService.getSubsTringToken(bearer);
+        String rolAdmin = jwtService.getRolFromToken(token);
 
-            Credenciales credenciales = credencialesService.buildCredencial(registerRequest, newDoctor.getId(), rol);
-            credencialesService.addCredencial(credenciales);
-            return new ResponseEntity<>(newDoctor, HttpStatus.CREATED);
+        if (rolAdmin.equals("administrador")) {
+            Optional<Credenciales> opt = credencialesService.findCredencialByEmail(registerRequest.getEmail());
+            if (!opt.isPresent()) {
+                Doctor doctor = doctorService.buildDoctor(registerRequest);
+                Doctor newDoctor = doctorService.saveDoctor(doctor);
 
+                String rol = "doctor";
+
+                Credenciales credenciales = credencialesService.buildCredencial(registerRequest, newDoctor.getId(),
+                        rol);
+                credencialesService.addCredencial(credenciales);
+                return new ResponseEntity<>(newDoctor, HttpStatus.CREATED);
+
+            }
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("password/reset")
@@ -123,7 +142,7 @@ public class AuthController {
             Optional<Credenciales> opt = credencialesService.findCredencialByEmail(email);
             if (opt.isPresent()) {
                 Credenciales credenciales = opt.get();
-                credencialesService.changeCredencialesPassword(changePasswordRequest,credenciales);
+                credencialesService.changeCredencialesPassword(changePasswordRequest, credenciales);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,0 +1,33 @@
+<app-navbar></app-navbar>
+<div id="subir-publicacion">
+    <h1>Subir nueva publicacion</h1>
+    <div id="content">
+        <div id="image">
+            @if (!showed) {
+                <div id="select-image">
+                    <i class="fa-solid fa-circle-plus" (click)="getImage()"></i>
+                </div>
+            } 
+                <img src="{{url}}" alt="" id="{{imageClass}}">
+                @if (showed) {
+                    <div class="button">
+                        <button (click)="eliminarFoto()">Eliminar foto</button>
+                    </div>
+                }    
+        </div>
+        <form [formGroup]="formgroup">
+            <div class="input">
+                <label for="">Título: </label>
+                <input type="text" name="" id=""  formControlName="titulo">
+            </div>
+            <div class="input">
+                <label for="">Descripción: </label>
+                <textarea name="" id="" formControlName="descripcion"></textarea>
+            </div>
+            <div class="button">
+                <button (click)="subirPublicacion($event)">Subir publicacion</button>
+            </div>
+        </form>
+    </div>
+   
+</div>

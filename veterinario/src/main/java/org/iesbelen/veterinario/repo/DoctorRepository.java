@@ -24,6 +24,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long>{
     @Query("SELECT D FROM Doctor D where D.activo = true")
     public List<Doctor> getActiveDoctors();
 
-    @Query("SELECT D from Doctor D where D.id = (SELECT R.id_doctor from Recomendacion R where R.id = :id)")
+    @Query("SELECT D from Doctor D where D.id in (SELECT R.id_doctor from Recomendacion R where R.id = :id)")
     public Optional<Doctor> getDoctorByRecomendacion(@Param("id") long id_recomendacion);
 }

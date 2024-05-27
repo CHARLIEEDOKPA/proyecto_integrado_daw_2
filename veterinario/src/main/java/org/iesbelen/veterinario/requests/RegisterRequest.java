@@ -18,6 +18,6 @@ public class RegisterRequest {
     private String residencia;
     private String telefono;
     private Date nacimiento;
-    private String contrasenya;
+    private String foto;
 
 }

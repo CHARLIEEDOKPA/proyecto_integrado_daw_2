@@ -3,6 +3,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { MascotaService } from '../mascota.service';
 import { Mascota } from '../mascota';
 import { Router } from '@angular/router';
+import { JwtService } from '../jwt.service';
 
 @Component({
   selector: 'app-mascota-crud',
@@ -13,10 +14,15 @@ import { Router } from '@angular/router';
 })
 export class MascotaCrudComponent implements OnInit {
   private mascotaService = inject(MascotaService);
+  private jwtService = inject(JwtService)
   mascotas!: Mascota[];
   router = inject(Router);
 
   ngOnInit(): void {
+    let rol = this.jwtService.returnObjectFromJSON()?.rol
+    if(rol !== "administrador") {
+      this.router.navigate(['main'])
+    }
     this.mascotaService.getMascotas().subscribe((x) => (this.mascotas = x));
   }
 

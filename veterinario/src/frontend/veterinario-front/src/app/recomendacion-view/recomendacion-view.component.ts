@@ -1,11 +1,9 @@
-import { RecomendacionService } from './../recomendacion.service';
 import { Component, OnInit, inject } from '@angular/core';
-import { NavbarComponent } from '../navbar/navbar.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Recomendacion } from '../recomendacion';
-import { DoctorService } from '../doctor.service';
 import { Doctor } from '../doctor';
+import { NavbarComponent } from '../navbar/navbar.component';
 import { RecomendacionDto } from '../recomendacion-dto';
+import { RecomendacionService } from './../recomendacion.service';
 
 @Component({
   selector: 'app-recomendacion-view',
@@ -24,7 +22,6 @@ export class RecomendacionViewComponent implements OnInit {
   doctor!: Doctor;
 
   recomendacion!: RecomendacionDto;
-  private doctorService = inject(DoctorService);
 
   ngOnInit(): void {
     this.recomendacionService.getRecomendacionById(this.ID).subscribe((x) => {

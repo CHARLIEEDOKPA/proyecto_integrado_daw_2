@@ -50,7 +50,7 @@ public class DuenyoController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
             List<Duenyo> duenyos = duenyoService.getListDuenyo();
             return new ResponseEntity<>(duenyos,HttpStatus.OK);
         }
@@ -61,7 +61,7 @@ public class DuenyoController {
     public ResponseEntity<Duenyo> getDuenyoByMascotaId(@PathVariable Long id_mascota,@RequestHeader("Authorization") String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
-        if (rol.equals("doctor")) {
+        if (rol.equals("doctor") || rol.equals("subadministrador")) {
             Optional<Duenyo> opt = duenyoService.getDuenyoByMascotaId(id_mascota);
             return opt.isPresent() ? new ResponseEntity<>(opt.get(),HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -87,7 +87,7 @@ public class DuenyoController {
     public ResponseEntity<Duenyo> getDuenyo(@PathVariable Long id, @RequestHeader("Authorization") String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
-        List<String> roles = Arrays.asList("duenyo","administrador");
+        List<String> roles = Arrays.asList("duenyo","administrador","subadministrador");
         if (roles.contains(rol)) {
             Optional<Duenyo> opt = duenyoService.getDuenyoById(id);
             
@@ -116,7 +116,7 @@ public class DuenyoController {
     public ResponseEntity<String> deleteDuenyo(@PathVariable Long id, @RequestHeader("Authorization") String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
            if (duenyoService.deleteDuenyo(id)) {
                 return new ResponseEntity<>(HttpStatus.OK);
            }
@@ -129,7 +129,7 @@ public class DuenyoController {
     public ResponseEntity<String> editDuenyo(@PathVariable Long id, @Valid @RequestBody DuenyoEditRequest duenyoEditRequest,@RequestHeader("Authorization")String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
             Duenyo editedDuenyo = duenyoService.editDuenyo(duenyoEditRequest,id);
             
             return editedDuenyo != null? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);

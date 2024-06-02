@@ -120,7 +120,7 @@ public class DuenyoService {
     }
 
     public Optional<Duenyo> getDuenyoByIncidenciaId(long id) {
-        return duenyoRepository.getDuenyoByMascotaId(id);
+        return duenyoRepository.getDuenyoByIncidenciaId(id);
     }
 
     public List<Duenyo> getDuenyosByPattern(String pattern) {

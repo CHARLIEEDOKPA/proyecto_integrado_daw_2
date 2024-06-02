@@ -9,6 +9,9 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { Mascota } from '../mascota';
 import { Duenyo } from '../duenyo';
 import { DuenyoService } from '../duenyo.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { JwtService } from '../jwt.service';
 
 @Component({
   selector: 'app-duenyo-crear',
@@ -19,8 +22,10 @@ import { DuenyoService } from '../duenyo.service';
 })
 export class DuenyoCrearComponent implements OnInit {
   formgroup!: FormGroup;
-
+  private toastr = inject(ToastrService)
   private duenyoService = inject(DuenyoService);
+  private router = inject(Router)
+  private jwtService = inject(JwtService)
 
   previewFile() {
     const preview = document.querySelector('img');
@@ -42,7 +47,7 @@ export class DuenyoCrearComponent implements OnInit {
           ) {
             preview.src = reader.result!;
           } else {
-            alert('Wrong format');
+            this.toastr.error('El formato tiene que ser png, jpg o jpeg');
           }
         }
       },
@@ -55,6 +60,10 @@ export class DuenyoCrearComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let rol = this.jwtService.returnObjectFromJSON()?.rol
+    if(rol !== "administrador") {
+      this.router.navigate(['main'])
+    }
     this.formgroup = new FormGroup({
       nombre: new FormControl('', Validators.required),
       apellidos1: new FormControl('', Validators.required),
@@ -68,7 +77,6 @@ export class DuenyoCrearComponent implements OnInit {
 
   create() {
     let valid = this.formgroup.valid;
-    console.log(this.formgroup.value);
     if (valid) {
       let formValue = this.formgroup.value;
       let duenyo: Duenyo = {
@@ -85,14 +93,18 @@ export class DuenyoCrearComponent implements OnInit {
 
       this.duenyoService
         .crearDuenyo(duenyo)
-        .subscribe((x) => alert('Se ha creado'));
+        .subscribe(() => {
+          this.toastr.success('Se ha creado')
+          this.router.navigate(['duenyo-crud'])
+        } ,() => {
+          this.toastr.error("Tuvo un error al crear el dueño, puede que el email ya esta registrado antes")
+        });
     } else {
-      alert('Revise los campos restantes por favor');
+      this.toastr.error('Revise los campos restantes por favor');
     }
   }
 
   getUrl(): string {
-    console.log(document.querySelector('img')?.src!);
     return document.querySelector('img')?.src!;
   }
 }

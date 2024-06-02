@@ -20,6 +20,7 @@ export class DuenyoComponent implements OnInit {
   private mascotaService = inject(MascotaService);
   private router = inject(Router);
   private jwtService = inject(JwtService)
+
   mascotas!: Mascota[];
   duenyo!: Duenyo;
   hour!: number;
@@ -27,7 +28,6 @@ export class DuenyoComponent implements OnInit {
   ngOnInit(): void {
     this.duenyoService.getDuenyoByToken().subscribe((x) => (this.duenyo = x), error => {
       if(error.status === 403) {
-        console.log("Puede que el token se haya expirado o no se haya autenticado")
         this.jwtService.removeTokenAndRedirectLogin()
       }
     });

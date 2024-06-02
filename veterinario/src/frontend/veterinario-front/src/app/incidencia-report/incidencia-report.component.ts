@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { IncidenciaRequest } from '../incidencia-request';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-incidencia-report',
@@ -20,6 +21,7 @@ import { IncidenciaRequest } from '../incidencia-request';
   imports: [NavbarComponent, ReactiveFormsModule],
 })
 export class IncidenciaReportComponent implements OnInit {
+  
   formGroup!: FormGroup;
 
   private router = inject(ActivatedRoute);
@@ -31,44 +33,42 @@ export class IncidenciaReportComponent implements OnInit {
   private mascotaService = inject(MascotaService);
 
   private route = inject(Router)
+
+   private toastr = inject(ToastrService)
   mascota!: Mascota;
 
   ngOnInit(): void {
+    this.formGroup  = new FormGroup({
+      observacion : new FormControl('',[Validators.minLength(20),Validators.required])
+    })
+
     this.mascotaService.getMascota(this.ID).subscribe(
       (x) => {
         this.mascota = x;
       },
-      (error) => {
-        let status = error.status;
-        if (status == 401) {
-          console.log('No puedes acceder a esta mascota');
+      () => {
           this.route.navigate(['main'])
-        }
-
-        if (status == 400) {
-          console.log(`La mascota con el id ${this.ID} no ha sido encontrado`);
-        }
       }
     );
 
-    this.formGroup = new FormGroup({
-      observacion: new FormControl('', Validators.minLength(20)),
-    });
   }
 
   sendIncidencia() {
     let valid = this.formGroup.valid
         if(valid) {
+          this.toastr.success("funciona")
             let observacion:any | string = this.formGroup.get(['observacion'])?.value
             let incidenciaRequest:IncidenciaRequest = {
                 id_mascota: this.ID,
                 observaciones: observacion
             }
             this.incidenciaService.sendIncidencia(incidenciaRequest).subscribe(x => {
-                alert("Se ha enviado")
+                this.toastr.success("Se ha enviado")
                 this.route.navigate(['mascota', this.ID])
             })
 
+        } else {
+          this.toastr.error("Ese campo tiene que estar relleno, y mínimo 20 carácteres")
         }
   }
 }

@@ -56,7 +56,7 @@ public class DoctorController {
     public ResponseEntity<Doctor> getMethodName(@PathVariable Long id_doctor , @RequestHeader("Authorization") String bearer) {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
             Optional<Doctor> opt = doctorService.getDoctorById(id_doctor);
             if (opt.isPresent()) {
                 Doctor doctor = opt.get();
@@ -73,7 +73,7 @@ public class DoctorController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
 
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
             Doctor editedDoctor = this.doctorService.modifyDoctor(id_doctor, doctor);
             return editedDoctor !=  null ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -85,11 +85,11 @@ public class DoctorController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
 
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
             Optional<Doctor> opt = doctorService.getDoctorById(id_doctor);
             if (opt.isPresent()) {
-                doctorService.deleteDoctor(id_doctor);
-                return new ResponseEntity<>(HttpStatus.OK);
+                boolean deleted = doctorService.deleteDoctor(id_doctor);
+                return deleted ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.CONFLICT);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -121,7 +121,7 @@ public class DoctorController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
 
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
             List<Doctor> doctores = doctorService.getListDoctores();
             return new ResponseEntity<>(doctores,HttpStatus.OK);
         }

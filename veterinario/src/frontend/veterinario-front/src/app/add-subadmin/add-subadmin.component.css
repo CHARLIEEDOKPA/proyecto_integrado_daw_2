@@ -8,13 +8,12 @@ h1 {
     justify-content: center;
   }
   
-  #detalle-duenyo{
+  #registrar-subadmin{
     padding: 50px;
   }
   
   .input {
     padding: 10px;
-    display: flex;
     justify-content: center;
   }
   
@@ -22,19 +21,18 @@ h1 {
   label {
     margin-right: 10px;
     font-size: 18px;
+    align-self: center;
   }
   
   
-  input,
-  textarea {
+  input[type=text] {
     background-color: #d9d9d9;
     border: 0;
     border-radius: 10px;
+    padding: 10px;
+    
   }
   
-  textarea {
-      padding: 10px;
-  }
   
   #button {
       padding: 10px;
@@ -45,8 +43,10 @@ h1 {
   input[type=submit] {
       padding: 10px;
       font-size: 20px;
-      background-color: #2AE526;
+      background-color: #F38181;;
       transition: 300ms;
+      border-radius: 10px;
+      border: 0;
       
   }
   
@@ -61,11 +61,11 @@ h1 {
 
   
   
-  input[type=date],input[type=text] {
-    padding: 5px;
+ input[type=text] {
     font-size: 20px;
   }
   
   input[type].ng-invalid, textarea.ng-invalid {
       border: 1px solid red;
   }
+

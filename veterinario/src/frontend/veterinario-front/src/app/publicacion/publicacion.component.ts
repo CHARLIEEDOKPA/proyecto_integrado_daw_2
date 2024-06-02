@@ -14,14 +14,14 @@ import {
 import { Duenyo } from '../duenyo';
 import { JwtService } from '../jwt.service';
 import { MeGusta } from '../me-gusta';
-import { FindBarComponent } from "../find-bar/find-bar.component";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-publicacion',
     standalone: true,
     templateUrl: './publicacion.component.html',
     styleUrl: './publicacion.component.css',
-    imports: [NavbarComponent, ReactiveFormsModule, FindBarComponent]
+    imports: [NavbarComponent, ReactiveFormsModule]
 })
 export class PublicacionComponent implements OnInit {
   publicacion!: PublicacionDto;
@@ -30,6 +30,7 @@ export class PublicacionComponent implements OnInit {
   private router = inject(Router);
   private ID = Number(this.route.snapshot.paramMap.get('id'));
   private jwtService = inject(JwtService);
+  private toastr = inject(ToastrService)
   formgroup!: FormGroup;
 
   getFullName(duenyo: Duenyo) {
@@ -41,7 +42,7 @@ export class PublicacionComponent implements OnInit {
   }
 
   like() {
-    this.publicacionService.like(this.ID).subscribe((x) => {
+    this.publicacionService.like(this.ID).subscribe(() => {
         let id = this.jwtService.returnObjectFromJSON()?.id;
         let meGusta:MeGusta = {
             id: 0,
@@ -67,12 +68,12 @@ export class PublicacionComponent implements OnInit {
         this.formgroup.reset();
       });
     } else {
-      alert('Al menos un carácter');
+      this.toastr.error('Al menos un carácter');
     }
   }
 
   dislike() {
-    this.publicacionService.dislike(this.ID).subscribe((x) => {
+    this.publicacionService.dislike(this.ID).subscribe(() => {
       let id = this.jwtService.returnObjectFromJSON()?.id;
       this.publicacion.megustas = this.publicacion.megustas.filter(x => id != x.id_duenyo)
     });
@@ -92,7 +93,6 @@ export class PublicacionComponent implements OnInit {
     });
     this.publicacionService.getPublicacionById(this.ID).subscribe((x) => {
       this.publicacion = x;
-      console.log(x);
-    });
+    },() => this.router.navigate(['main']));
   }
 }

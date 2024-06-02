@@ -10,6 +10,7 @@ import {
 import { PublicacionService } from '../publicacion.service';
 import { Router } from '@angular/router';
 import { Publicacion } from '../publicacion';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-publicacion',
@@ -19,6 +20,8 @@ import { Publicacion } from '../publicacion';
   imports: [NavbarComponent, ReactiveFormsModule],
 })
 export class AddPublicacionComponent implements OnInit {
+
+  private toastr = inject(ToastrService)
   showed: boolean = false;
   url!: string;
   imageClass: string = 'zero';
@@ -29,7 +32,6 @@ export class AddPublicacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.formgroup = new FormGroup({
-      titulo: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
     });
   }
@@ -56,17 +58,16 @@ export class AddPublicacionComponent implements OnInit {
           photo_url: this.url,
           id: 0,
         };
-        console.log(publicacion);
         this.publicacionService.addPublicacion(publicacion).subscribe((x) => {
           let id = this.jwtService.returnObjectFromJSON()?.id;
-          alert('Se ha subido');
+          this.toastr.success("Se ha subido")
           this.router.navigate([`publicaciones/${id}`])
         });
       } else {
-        alert('Te faltan campos por rellenar');
+        this.toastr.error('Te faltan campos por rellenar');
       }
     } else {
-      alert('Necesitas subir una imagen');
+      this.toastr.error('Necesitas subir una imagen');
     }
   }
 
@@ -94,7 +95,7 @@ export class AddPublicacionComponent implements OnInit {
             this.showed = true;
             this.imageClass = 'max';
           } else {
-            alert('Wrong format');
+            this.toastr.error('Los formato debería ser png, jpeg o jpg');
           }
         }
       },

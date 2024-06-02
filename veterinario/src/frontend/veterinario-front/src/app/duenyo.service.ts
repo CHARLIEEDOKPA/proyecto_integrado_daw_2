@@ -2,18 +2,28 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Duenyo } from './duenyo';
+import { HOST } from './global';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class DuenyoService {
-  
+ 
 
   
   
   constructor(private httpCliente: HttpClient) {}
 
-  private URL = 'http://localhost:8080/duenyo';
+  private URL = `${HOST}/duenyo`;
+
+  resetPassword(email: string) {
+    let emailRequest:any = {
+      email : email
+    }
+    return this.httpCliente.post(`${HOST}/auth/password/reset`,emailRequest)
+  }
+  
 
   getAllDuenyos() {
     return this.httpCliente.get<Duenyo[]>(`${this.URL}/all`);
@@ -48,6 +58,6 @@ export class DuenyoService {
   }
 
   crearDuenyo(duenyo: Duenyo) {
-    return this.httpCliente.post(`http://127.0.0.1:8080/auth/register/duenyo`,duenyo)
+    return this.httpCliente.post(`${HOST}/auth/register/duenyo`,duenyo)
 }
 }

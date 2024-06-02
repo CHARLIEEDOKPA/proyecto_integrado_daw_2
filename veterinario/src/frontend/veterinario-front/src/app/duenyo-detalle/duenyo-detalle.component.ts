@@ -3,7 +3,7 @@ import { NavbarComponent } from "../navbar/navbar.component";
 import { DatePipe } from '@angular/common';
 import { Duenyo } from '../duenyo';
 import { DuenyoService } from '../duenyo.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-duenyo-detalle',
@@ -21,8 +21,9 @@ private route = inject(ActivatedRoute)
 private ID = Number(this.route.snapshot.paramMap.get("id"))
 
 private duenyoService = inject(DuenyoService)
+    private router = inject(Router);
 
 ngOnInit(): void {
-    this.duenyoService.getDuenyoById(this.ID).subscribe(x => this.duenyo = x)
+    this.duenyoService.getDuenyoById(this.ID).subscribe(x => this.duenyo = x,() => this.router.navigate(['duenyo-crud']))
 }
 }

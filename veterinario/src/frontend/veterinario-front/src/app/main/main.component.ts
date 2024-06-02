@@ -26,9 +26,7 @@ export class MainComponent implements OnInit{
         try {
             this.credentials! = this.jwtService.returnObjectFromJSON()!
             this.rol = this.credentials.rol
-            console.log(this.credentials)
         } catch (error) {
-            console.log("Puede que no haya token o que el token tiene un mal formato")
             this.router.navigate(['/login'])
         }
         

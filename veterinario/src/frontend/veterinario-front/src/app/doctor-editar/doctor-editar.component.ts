@@ -3,8 +3,9 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NavbarComponent } from "../navbar/navbar.component";
 import { DatePipe } from '@angular/common';
 import { DoctorService } from '../doctor.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Doctor } from '../doctor';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-doctor-editar',
@@ -17,9 +18,11 @@ export class DoctorEditarComponent implements OnInit{
 doctor: any;
 formgroup!: FormGroup;
 private doctorService = inject(DoctorService)
+private toastr = inject(ToastrService)
 
 private route = inject(ActivatedRoute)
 private ID =  Number(this.route.snapshot.paramMap.get("id"))
+  private router = inject(Router);
 
 ngOnInit(): void {
   this.formgroup =  new FormGroup({
@@ -30,7 +33,7 @@ ngOnInit(): void {
       residencia: new FormControl('',Validators.required),
       telefono: new FormControl('',Validators.required),
   })
-  this.doctorService.getDoctorById(this.ID).subscribe(x => this.doctor = x)
+  this.doctorService.getDoctorById(this.ID).subscribe(x => this.doctor = x,() => this.router.navigate(['doctor-crud']))
 }
 
  previewFile() {
@@ -49,7 +52,7 @@ ngOnInit(): void {
           if(typeof reader.result === "string" && (ext === "png" || ext == "jpg" || ext == "jpeg" )) {
               preview.src = reader.result!;
           } else {
-            alert("Wrong format")
+            this.toastr.error("Wrong format")
           }
       }
       
@@ -69,7 +72,6 @@ removeImage() {
 
 edit() {
   let valid = this.formgroup.valid
-  console.log(this.formgroup.value)
   if(valid) {
       let formValue = this.formgroup.value
       let doctor:Doctor = {
@@ -83,16 +85,17 @@ edit() {
           email: this.doctor.email
 
       }
-      console.log(doctor)
-      this.doctorService.editDoctor(doctor,this.ID).subscribe(x => alert("Se ha editado"))
+      this.doctorService.editDoctor(doctor,this.ID).subscribe(() => {
+        this.toastr.success("Se ha editado")
+          this.router.navigate(['doctor-crud'])
+      } )
 
   } else {
-      alert("Revise los campos restantes por favor")
+      this.toastr.error("Revise los campos restantes por favor")
   }
 }
 
 getUrl(): string {
-  console.log((document.querySelector("img"))?.src!)
   return (document.querySelector("img"))?.src!
 
 }

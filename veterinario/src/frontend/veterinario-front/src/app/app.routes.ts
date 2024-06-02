@@ -25,9 +25,9 @@ import { PublicacionesComponent } from './publicaciones/publicaciones.component'
 import { AddPublicacionComponent } from './add-publicacion/add-publicacion.component';
 import { PublicacionComponent } from './publicacion/publicacion.component';
 import { DuenyosBrowserComponent } from './duenyos-browser/duenyos-browser.component';
+import { AddSubadminComponent } from './add-subadmin/add-subadmin.component';
 
 export const routes: Routes = [
-    {component:MainComponent,path:""},
     {component:LoginComponent,path:"login"},
     {component:MainComponent,path:"main"},
     {component:MascotaComponent,path:"mascota/:id"},
@@ -53,5 +53,8 @@ export const routes: Routes = [
     {component:PublicacionesComponent, path:"publicaciones/:id"},
     {component:AddPublicacionComponent, path:"add-publicacion"},
     {component:PublicacionComponent, path:"publicacion/:id"},
-    {component:DuenyosBrowserComponent,path:"result/:pattern"}
+    {component:DuenyosBrowserComponent,path:"result/:pattern"},
+    {component:AddSubadminComponent,path:"add-subadmin"},
+    {component:MainComponent,path:"**"},
+    
 ];

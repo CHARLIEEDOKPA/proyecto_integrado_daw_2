@@ -30,6 +30,7 @@ thead {
 i {
     font-size: 30px;
     color: #F38181;
+    transition: 300ms;
 }
 
 #button {
@@ -45,4 +46,9 @@ button {
     transition: 300ms;
     border-radius: 10px;
     border: 0;
+}
+
+i:hover {
+    transform: scale(0.9);
+    cursor: pointer;
 }

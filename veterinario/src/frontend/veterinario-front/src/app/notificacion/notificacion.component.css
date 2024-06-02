@@ -40,6 +40,27 @@ padding: 20px;
     color: #F38181;
 }
 
+button {
+    padding: 20px;
+    background-color: #f38181;
+    border: 0;
+    font-size: 20px;
+    border-radius: 10px;
+    margin-left: 66px;
+    transition: 300ms;
+}
+
+button:hover {
+    cursor: pointer;
+    transform: scale(0.9);
+}
+
 .status,.sobre {
     font-size: 20px;
 }
+
+#buttons {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+  }

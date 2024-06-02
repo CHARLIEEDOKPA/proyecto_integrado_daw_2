@@ -14,6 +14,8 @@ import { RecomendacionRequest } from '../recomendacion-request';
 import { AddCitaComponent } from '../add-cita/add-cita.component';
 import { CitaRequest } from '../cita-request';
 import { CitaService } from '../cita.service';
+import { ToastrService } from 'ngx-toastr';
+import { JwtService } from '../jwt.service';
 
 @Component({
   selector: 'app-recomendacion',
@@ -27,6 +29,8 @@ export class RecomendacionComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
 
+  private toastr = inject(ToastrService);
+
   private router = inject(Router);
 
   private ID = Number(this.route.snapshot.paramMap.get('id'));
@@ -34,6 +38,8 @@ export class RecomendacionComponent implements OnInit {
   private mascotaService = inject(MascotaService);
 
   private citaService = inject(CitaService);
+
+  private jwtService = inject(JwtService)
 
   @ViewChild(AddCitaComponent) private addCitaComponent!: AddCitaComponent;
 
@@ -43,9 +49,14 @@ export class RecomendacionComponent implements OnInit {
 
   formgroup!: FormGroup;
   ngOnInit(): void {
-    this.mascotaService
-      .getMascota(this.ID)
-      .subscribe((x) => (this.mascota = x),() => this.router.navigate(['main']));
+    let rol = this.jwtService.returnObjectFromJSON()?.rol
+    if (rol !== "doctor") {
+      this.router.navigate(['main'])
+    }
+    this.mascotaService.getMascota(this.ID).subscribe(
+      (x) => (this.mascota = x),
+      () => this.router.navigate(['main'])
+    );
     this.formgroup = new FormGroup({
       sobre: new FormControl('', [
         Validators.required,
@@ -60,59 +71,69 @@ export class RecomendacionComponent implements OnInit {
 
   sendRecomendacion() {
     let valid = this.formgroup.valid;
-    if (valid) {
-      alert("entra")
+    let date: string;
+    let correctToSend = true;
+    let time: Date;
+    if (this.showCita) {
+      this.addCitaComponent.getDate();
+      time = this.addCitaComponent.time;
+      date = this.addCitaComponent.date;
+
+      correctToSend =
+        this.addCitaComponent.time != null && this.checkDateAndTime(time, date);
+    }
+
+    if (valid && correctToSend) {
       let recomendacion = this.formgroup.value;
-      let correctToSend = true;
+
       let recomendacionRequest: RecomendacionRequest = {
         sobre: recomendacion.sobre,
         texto: recomendacion.texto,
         id_mascota: this.ID,
       };
-      let date: string;
-      let time: Date;
-      if (this.showCita) {
-        this.addCitaComponent.getDate()
-        time = this.addCitaComponent.time;
-        date = this.addCitaComponent.date;
 
-        correctToSend =
-          this.addCitaComponent.time != null &&
-          this.checkDateAndTime(time, date);
-      }
-
-      if (this.showCita && correctToSend) {
-        this.recomendacionService
-          .sendRecomendacion(recomendacionRequest)
-          .subscribe((x) => {
-            alert(
-              `Se ha enviado la incidencia a la mascota ${this.mascota.nombre} y se añadido una cita`
-            );
-            let timeString = `${time.getHours().toString().padStart(2,'0')}:${time.getMinutes().toString().padStart(2,'0')}:00`;
-
+      this.recomendacionService
+        .sendRecomendacion(recomendacionRequest)
+        .subscribe((x) => {
+          if (this.showCita) {
+            let timeString = `${time
+              .getHours()
+              .toString()
+              .padStart(2, '0')}:${time
+              .getMinutes()
+              .toString()
+              .padStart(2, '0')}:00`;
             let citaRequest: CitaRequest = {
-              date: date.split("/").reverse().join("-"),
+              date: date.split('/').reverse().join('-'),
               time: `${timeString}`,
               id_mascota: this.ID,
             };
-            console.log(citaRequest)
-            this.citaService.sendCita(citaRequest).subscribe((x) => {
-              console.log('Se ha creado la cita');
-              this.router.navigate(['mascota', this.ID]);
-            });
-          });
-      } else {
-        this.recomendacionService
-          .sendRecomendacion(recomendacionRequest)
-          .subscribe((x) => {
-            alert(
+            this.citaService.sendCita(citaRequest).subscribe(
+              (x) => {
+                this.router.navigate(['mascota', this.ID]);
+                this.toastr.success(
+                  `Se ha enviado la incidencia a la mascota ${this.mascota.nombre} y se añadido una cita`
+                );
+              },
+              (error) => {
+                this.toastr.warning(
+                  'Se ha enviado la cita pero la cita no se puede añadir por un error o que la cita ya esta ocupado'
+                );
+              }
+            );
+          } else {
+            this.toastr.success(
               `Se ha enviado la incidencia a la mascota ${this.mascota.nombre} y se añadido una cita`
             );
-            this.router.navigate(['mascota', this.ID]);
-          });
-      }
+          }
+        });
     } else {
-      alert('Los campos deberían estar rellenos o tuvo un error');
+      if (!correctToSend) {
+        this.toastr.error("Revisa la fecha o el día para añadir una cita")
+      } else {
+        this.toastr.error('Los campos deberían estar rellenos o tuvo un error');
+      }
+      
     }
   }
 
@@ -133,12 +154,21 @@ export class RecomendacionComponent implements OnInit {
     );
 
     if (dateObject.getDay() === 6 || dateObject.getDay() === 0) {
+      this.toastr.error('Los findes de semana no cuentan');
+      return false;
+    }
+
+    if (dateObject.getTime() < new Date().getTime()) {
+      this.toastr.error('Ya ha pasado ese día, escoge uno correcto');
       return false;
     }
 
     let hours = time.getHours();
 
     if (hours > 15 || hours < 8) {
+      this.toastr.error(
+        'Tiene que ser minimo a las 8 AM y hasta las 4pm como máximo'
+      );
       return false;
     }
 

@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Duenyo } from '../duenyo';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-duenyo-editar',
@@ -23,7 +24,7 @@ export class DuenyoEditarComponent {
     private route = inject(ActivatedRoute)
 
   private duenyoService = inject(DuenyoService)
-
+  private toastr = inject(ToastrService)
   private ID =  Number(this.route.snapshot.paramMap.get("id"))
   private router = inject(Router)
   duenyo!:Duenyo
@@ -56,7 +57,7 @@ export class DuenyoEditarComponent {
             if(typeof reader.result === "string" && (ext === "png" || ext == "jpg" || ext == "jpeg" )) {
                 preview.src = reader.result!;
             } else {
-              alert("Wrong format")
+              this.toastr.error("El formato tiene que ser png, jpg, o jpeg")
             }
         }
         
@@ -76,7 +77,6 @@ export class DuenyoEditarComponent {
 
   edit() {
     let valid = this.formgroup.valid
-    console.log(this.formgroup.value)
     if(valid) {
         let formValue = this.formgroup.value
         let duenyo:Duenyo = {
@@ -92,15 +92,17 @@ export class DuenyoEditarComponent {
 
         }
 
-        this.duenyoService.editDuenyo(duenyo,this.ID).subscribe(x => alert("Se ha editado"))
+        this.duenyoService.editDuenyo(duenyo,this.ID).subscribe(() => {
+          this.toastr.success("Se ha editado")
+          this.router.navigate(['duenyo-crud'])
+        })
 
     } else {
-        alert("Revise los campos restantes por favor")
+        this.toastr.error("Revise los campos restantes por favor")
     }
   }
 
   getUrl(): string {
-    console.log((document.querySelector("img"))?.src!)
     return (document.querySelector("img"))?.src!
 
 }

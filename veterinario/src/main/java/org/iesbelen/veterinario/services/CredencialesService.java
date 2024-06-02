@@ -109,6 +109,10 @@ public class CredencialesService {
 		credenciales.setChangedPassword(true);
 	}
 
+    public void addSubAdministrador(String email) {
+        
+    }
+
 	
 
 }

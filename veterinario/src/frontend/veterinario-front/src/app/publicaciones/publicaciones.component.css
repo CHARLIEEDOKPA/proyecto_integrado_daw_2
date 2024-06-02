@@ -27,3 +27,21 @@ H1 {
     display: flex;
     justify-content: center;
 }
+
+#add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 300ms;
+}
+
+#add i {
+    padding: 30px;
+    background-color: #f38181;
+    border-radius: 50%;
+}
+
+#add:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+}

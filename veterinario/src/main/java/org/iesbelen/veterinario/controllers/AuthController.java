@@ -101,7 +101,27 @@ public class AuthController {
                 return new ResponseEntity<>(newDoctor, HttpStatus.CREATED);
 
             }
-            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("register/subadministrador")
+    public ResponseEntity<String> registerSubAdministrador(@RequestBody @Valid RegisterRequest registerRequest,
+            @RequestHeader("Authorization") String bearer) {
+        String token = jwtService.getSubsTringToken(bearer);
+        String rol = jwtService.getRolFromToken(token);
+
+        if (rol.equals("administrador")) {
+            String email = registerRequest.getEmail();
+            Optional<Credenciales> opt = credencialesService.findCredencialByEmail(email);
+            if (!opt.isPresent()) {
+                Credenciales credenciales = credencialesService.buildCredencial(registerRequest, 0, "subadministrador");
+                credencialesService.addCredencial(credenciales);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return  new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -132,7 +152,7 @@ public class AuthController {
     @PostMapping("password/change")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest,
             @RequestHeader("Authorization") String bearer) {
-        List<String> roles = Arrays.asList("duenyo", "doctor");
+        List<String> roles = Arrays.asList("duenyo", "doctor","subadministrador");
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         String email = jwtService.getUsernameFromToken(token);

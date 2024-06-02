@@ -24,3 +24,8 @@
     </div>
   </div>
 </div>
+@if (rol === "administrador") {
+  <div id="button">
+    <button (click)="redirectoTo('add-subadmin')">Añadir subadministrador</button>
+  </div>
+}

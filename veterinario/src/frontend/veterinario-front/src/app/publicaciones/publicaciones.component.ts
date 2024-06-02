@@ -1,11 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { NavbarComponent } from '../navbar/navbar.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PublicacionService } from '../publicacion.service';
 import { JwtService } from '../jwt.service';
-import { Publicacion } from '../publicacion';
+import { NavbarComponent } from '../navbar/navbar.component';
 import { PublicacionDto } from '../publicacion-dto';
-import { Duenyo } from '../duenyo';
+import { PublicacionService } from '../publicacion.service';
 
 @Component({
   selector: 'app-publicaciones',
@@ -15,6 +13,7 @@ import { Duenyo } from '../duenyo';
   imports: [NavbarComponent],
 })
 export class PublicacionesComponent implements OnInit {
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private ID = Number(this.route.snapshot.paramMap.get('id'));
@@ -28,6 +27,10 @@ export class PublicacionesComponent implements OnInit {
       () => this.router.navigate(['main'])
     );
   }
+
+  redirectAddPublicacion() {
+    this.router.navigate(['add-publicacion'])
+    }
 
   redirectPublicacion(id: number) {
     this.router.navigate(['publicacion', id]);

@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { NavbarComponent } from "../navbar/navbar.component";
-import { Form, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DuenyoService } from '../duenyo.service';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Duenyo } from '../duenyo';
-import { Mascota } from '../mascota';
-import { MascotaService } from '../mascota.service';
+import { DuenyoService } from '../duenyo.service';
 import { MascotaRequest } from '../mascota-request';
+import { MascotaService } from '../mascota.service';
+import { NavbarComponent } from "../navbar/navbar.component";
+import { JwtService } from '../jwt.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-mascota-crear',
@@ -22,8 +24,17 @@ formgroup!:FormGroup
 private duenyoService = inject(DuenyoService);
 duenyos!:Duenyo[]
  private mascotaService =  inject(MascotaService);
+ private router = inject(Router)
+ private toastr = inject(ToastrService)
+ private jwtService = inject(JwtService)
+
 
   ngOnInit(): void {
+    let rol = this.jwtService.returnObjectFromJSON()?.rol
+    if(rol !== "administrador") {
+      this.router.navigate(['main'])
+    }
+      
     this.formgroup =  new FormGroup({
         nombre: new FormControl('',Validators.required),
         sex: new FormControl('',Validators.required),
@@ -37,7 +48,6 @@ duenyos!:Duenyo[]
 
 add() {
   let valid = this.formgroup.valid
-  console.log(this.formgroup.value)
   if(valid) {
       let formValue = this.formgroup.value
       let mascota:MascotaRequest = {
@@ -54,13 +64,12 @@ add() {
       }
 
       this.mascotaService.addMascota(mascota).subscribe(x => {
-        alert("Se ha creado")
+        this.toastr.success("Se ha creado")
       })
 
-      console.log(mascota)
 
   } else {
-      alert("Revise los campos restantes por favor")
+      this.toastr.error("Revise los campos restantes por favor")
   }
 }
 
@@ -81,7 +90,7 @@ previewFile() {
               preview.src = reader.result!;
           } else {
             (<HTMLInputElement>document.querySelector("input[type=file]")).value = ""
-            alert("Wrong format")
+            this.toastr.error("El formato tiene que ser png, jpg o jpeg")
             
           }
       }

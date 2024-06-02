@@ -40,7 +40,7 @@ CREATE TABLE `credenciales` (
 
 LOCK TABLES `credenciales` WRITE;
 /*!40000 ALTER TABLE `credenciales` DISABLE KEYS */;
-INSERT INTO `credenciales` VALUES (1,'$2a$10$cJ8b5JXwpDRP3Zx7anqnOehFcAjBsNU.fRfI3tSOP27I27sJAGRqy','admin@gmail.com',0,'administrador');
+INSERT INTO `credenciales` VALUES (1,'$2a$10$cJ8b5JXwpDRP3Zx7anqnOehFcAjBsNU.fRfI3tSOP27I27sJAGRqy','admin@gmail.com',1,'administrador');
 /*!40000 ALTER TABLE `credenciales` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

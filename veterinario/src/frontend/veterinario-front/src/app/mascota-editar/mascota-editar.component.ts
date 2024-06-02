@@ -5,6 +5,8 @@ import { Mascota } from '../mascota';
 import { MascotaService } from '../mascota.service';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { JwtService } from '../jwt.service';
 
 @Component({
     selector: 'app-mascota-editar',
@@ -20,13 +22,18 @@ export class MascotaEditarComponent implements OnInit{
     formgroup!:FormGroup
 
     private route = inject(ActivatedRoute)
-
+    private toastr = inject(ToastrService)
   private mascotaService = inject(MascotaService)
   private router = inject(Router)
   private ID =  Number(this.route.snapshot.paramMap.get("id"))
+  private jwtService = inject(JwtService)
   mascota!:Mascota
 
   ngOnInit(): void {
+    let rol = this.jwtService.returnObjectFromJSON()?.rol
+    if(rol !== "administrador") {
+      this.router.navigate(['main'])
+    }
     this.formgroup =  new FormGroup({
         nombre: new FormControl('',Validators.required),
         sex: new FormControl('',Validators.required),
@@ -52,7 +59,7 @@ export class MascotaEditarComponent implements OnInit{
             if(typeof reader.result === "string" && (ext === "png" || ext == "jpg" || ext == "jpeg" )) {
                 preview.src = reader.result!;
             } else {
-              alert("Wrong format")
+              this.toastr.error("El formato tiene que ser png, jpg o jpeg")
             }
         }
         
@@ -72,7 +79,6 @@ export class MascotaEditarComponent implements OnInit{
 
   edit() {
     let valid = this.formgroup.valid
-    console.log(this.formgroup.value)
     if(valid) {
         let formValue = this.formgroup.value
         let mascota:Mascota = {
@@ -87,17 +93,14 @@ export class MascotaEditarComponent implements OnInit{
 
         }
 
-        this.mascotaService.editMascota(mascota).subscribe(x => alert("Se ha editado"))
-
-        console.log(mascota)
+        this.mascotaService.editMascota(mascota).subscribe(() => this.toastr.success("Se ha editado"))
 
     } else {
-        alert("Revise los campos restantes por favor")
+        this.toastr.error("Revise los campos restantes por favor")
     }
   }
 
   getUrl(): string {
-    console.log((document.querySelector("img"))?.src!)
     return (document.querySelector("img"))?.src!
 }
 }

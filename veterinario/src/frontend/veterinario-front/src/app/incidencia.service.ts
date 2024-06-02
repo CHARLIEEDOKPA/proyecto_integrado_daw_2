@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { IncidenciaRequest } from './incidencia-request';
 import { Incidencia } from './incidencia';
 import { IncidenciaDto } from './incidencia-dto';
+import { HOST } from './global';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class IncidenciaService {
 
   constructor(private httpClient:HttpClient) { }
 
-  private URL = "http://localhost:8080/incidencia"
+  private URL = `${HOST}/incidencia`
 
   public getIncidenciasByMascota(id_mascota:number) {
     return this.httpClient.get<Incidencia[]>(`${this.URL}/mascota/2`)

@@ -1,6 +1,6 @@
 <app-navbar rol="administrador"></app-navbar>
 <div id="mascota-crud">
-    <h1>DOCTOR CRUD</h1>
+    <h1>LISTADO DOCTORES</h1>
     <div id="table-wrapper">
         <table>
             <thead>
@@ -10,6 +10,7 @@
                     <td>Apellidos 1</td>
                     <td>Detalle</td>
                     <td>Editar</td>
+                    <td>Reset</td>
                     <td>Borrar</td>
                 </tr>
             </thead>
@@ -21,6 +22,7 @@
                         <td>{{doctor.apellidos1}}</td>
                         <td><i class="fa-solid fa-eye" (click)="redirectoTo('doctor-crud/detalle/' + doctor.id)"></i></td>
                         <td><i class="fa-solid fa-pencil" (click)="redirectoTo('doctor-crud/editar/' + doctor.id)"></i></td>
+                        <td><i class="fa-solid fa-arrows-rotate" (click)="resetContrasenya(doctor)"></i></td>
                         <td><i class="fa-solid fa-trash" (click)="deleteDuenyo(doctor.id,$event)"></i></td>
                     </tr>
                 }

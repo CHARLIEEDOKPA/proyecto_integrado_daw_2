@@ -44,7 +44,7 @@ public class MascotaController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
 
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
             Mascota mascota = mascotaService.buildMascota(mascotaRequest);
             if (mascota != null) {
                 Mascota newMascota = mascotaService.addMascota(mascota);
@@ -62,7 +62,7 @@ public class MascotaController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         Long id_duenyo = jwtService.getIdFromToken(token);
-        List<String> roles = Arrays.asList("administrador", "duenyo","doctor");
+        List<String> roles = Arrays.asList("administrador", "duenyo","doctor","subadministrador");
 
         if (roles.contains(rol)) {
             Optional<Mascota> opt = mascotaService.getMascotaById(id);
@@ -93,7 +93,7 @@ public class MascotaController {
         long id = jwtService.getIdFromToken(token);
         List<Mascota> mascotas;
 
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
             return new ResponseEntity<>(mascotaService.getMascotas(), HttpStatus.OK);
         }
 
@@ -115,7 +115,7 @@ public class MascotaController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
 
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
 
             Optional<Mascota> opt = mascotaService.getMascotaById(id);
 
@@ -135,7 +135,7 @@ public class MascotaController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
 
-        if (rol.equals("administrador")) {
+        if (rol.equals("administrador") || rol.equals("subadministrador")) {
             Mascota editedMascota = mascotaService.editMascota(id, mascotaEditRequest);
             return editedMascota != null ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);

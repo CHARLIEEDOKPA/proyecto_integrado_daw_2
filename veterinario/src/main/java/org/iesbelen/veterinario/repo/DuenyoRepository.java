@@ -31,5 +31,7 @@ public interface DuenyoRepository extends JpaRepository<Duenyo,Long>{
 
     @Query("SELECT D FROM Duenyo D where (LOWER(D.nombre) LIKE (%:pattern%) OR LOWER(D.apellidos1) LIKE %:pattern% OR LOWER(D.apellidos2) LIKE %:pattern%) AND D.activo = true")
     public List<Duenyo> getDuenyosByPattern(@Param("pattern")String pattern);
+    @Query("SELECT D FROM Duenyo D where D.id IN (SELECT M.id_duenyo from Mascota M where M.id IN (SELECT I.id_mascota FROM Incidencia I where I.id = :id_incidencia))")
+    public Optional<Duenyo> getDuenyoByIncidenciaId(@Param("id_incidencia") long id);
 
 }

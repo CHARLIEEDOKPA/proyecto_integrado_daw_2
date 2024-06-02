@@ -2,6 +2,11 @@
 
 <div id="notificaciones">
     <h1>Notificaciones</h1> 
+
+    <div id="buttons">
+        <button id="leidos" (click)="filtrarPorLeidos()">Filtrar por leidos</button>
+        <button id="no-leidos" (click)="filtrarPorNoLeidos()">Filtrar por no leidos</button>
+    </div>
     
     @if (rol === "duenyo") { 
     

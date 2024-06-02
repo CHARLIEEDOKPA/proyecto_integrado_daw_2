@@ -29,6 +29,12 @@ button {
     border: 0;
     border-radius: 10px;
     background-color: #F38181;
+    transition: 300ms;
+}
+
+button:hover {
+    transform: scale(0.9);
+    cursor: pointer;
 }
 
 #zero {
@@ -54,6 +60,10 @@ height: 0;
 
 #select-image i{
 font-size: 60px;
+}
+
+#select-image:hover {
+    cursor: pointer;
 }
 
 img {
@@ -82,6 +92,7 @@ form {
 label {
     margin-right: 20px;
     font-size: 25px;
+    align-self: center;
 }
 
 textarea  {

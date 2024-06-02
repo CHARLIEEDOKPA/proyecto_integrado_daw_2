@@ -3,16 +3,17 @@
     @if (rol === "duenyo") {
         <h1>Tus citas</h1>
         @for (cita of citas; track cita.id) {
-            <div class="cita {{status(cita)}}">
-                <h2>{{getFullDate(cita.date)}} {{cita.time}}</h2>
-                <p>Cita cita con el doctor {{cita.doctor.nombre}} {{cita.doctor.apellidos1}}</p>
-            </div>
-            
+            @if (status(cita) !== "past") {
+                <div class="cita {{status(cita)}}">
+                    <h2>{{getFullDate(cita.date)}} {{cita.time}}</h2>
+                    <p>Cita con el doctor {{cita.doctor.nombre}} {{cita.doctor.apellidos1}} para tu mascota {{cita.mascota.nombre}}</p>
+                </div>
+            }   
         }
     } @else {
         <h1>Citas programadas</h1>
         @for (cita of citas; track cita.id) {
-            @if (status(cita) != "past") {
+            @if (status(cita) !== "past") {
                 <div class="cita {{status(cita)}}">
                     <h2>{{getFullDate(cita.date)}} {{cita.time}}</h2>
                     <p>Añadiste una cita para la mascota {{cita.mascota.nombre}}</p>

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Mascota } from './mascota';
 import { MascotaRequest } from './mascota-request';
+import { HOST } from './global';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class MascotaService {
   
 
 
-  private URL = `http://localhost:8080/mascota`
+  private URL = `${HOST}/mascota`
 
   constructor(private httpClient:HttpClient) { }
   

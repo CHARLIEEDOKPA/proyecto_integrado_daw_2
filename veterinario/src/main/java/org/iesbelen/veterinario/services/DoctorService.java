@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DoctorService {
-    
+
     @Autowired
     private DoctorRepository doctorRepository;
 
@@ -21,7 +21,6 @@ public class DoctorService {
 
     @Autowired
     private MascotaService mascotaService;
-
 
     public Optional<Doctor> getDoctorById(long id) {
         return doctorRepository.getActiveDoctor(id);
@@ -41,7 +40,7 @@ public class DoctorService {
             Doctor doctor = opt.get();
             boolean equals = id.equals(doctor.getId());
             if (equals) {
-                Doctor editedDoctor = buildDoctorByEdit(doctor,doctorEdit);
+                Doctor editedDoctor = buildDoctorByEdit(doctor, doctorEdit);
                 doctorRepository.save(editedDoctor);
                 return editedDoctor;
             }
@@ -51,27 +50,32 @@ public class DoctorService {
 
     private Doctor buildDoctorByEdit(Doctor doctor, Doctor doctorEdit) {
         return Doctor.builder()
-            .id(doctor.getId())
-            .activo(true)
-            .nombre(doctorEdit.getNombre())
-            .nacimiento(doctorEdit.getNacimiento())
-            .apellidos1(doctorEdit.getApellidos1())
-            .apellidos2(doctorEdit.getApellidos2())
-            .email(doctor.getEmail())
-            .telefono(doctorEdit.getTelefono())
-            .residencia(doctorEdit.getResidencia())
-            .citas(doctor.getCitas())
-            .mascotas(doctor.getMascotas())
-            .recomendaciones(doctor.getRecomendaciones())
-            .incidencias(doctor.getIncidencias())
-            .build();
+                .id(doctor.getId())
+                .activo(true)
+                .nombre(doctorEdit.getNombre())
+                .nacimiento(doctorEdit.getNacimiento())
+                .apellidos1(doctorEdit.getApellidos1())
+                .apellidos2(doctorEdit.getApellidos2())
+                .email(doctor.getEmail())
+                .telefono(doctorEdit.getTelefono())
+                .residencia(doctorEdit.getResidencia())
+                .citas(doctor.getCitas())
+                .mascotas(doctor.getMascotas())
+                .recomendaciones(doctor.getRecomendaciones())
+                .incidencias(doctor.getIncidencias())
+                .build();
 
     }
 
-    public void deleteDoctor(long id) {
+    public boolean deleteDoctor(long id) {
+        List<Doctor> doctors = getListDoctores();
+        if (doctors.size() > 1) {
             doctorRepository.deleteDoctor(id);
             credencialesService.removeCredencial("doctor", id);
             changeMascotasDoctor(id);
+            return true;
+        }
+        return false;
 
     }
 
@@ -90,17 +94,17 @@ public class DoctorService {
 
     public Doctor buildDoctor(RegisterRequest registerRequest) {
         return Doctor.builder().activo(true)
-        .nombre(registerRequest.getNombre())
-        .apellidos1(registerRequest.getApellidos1())
-        .apellidos2(registerRequest.getApellidos2())
-        .email(registerRequest.getEmail())
-        .nacimiento(registerRequest.getNacimiento())
-        .residencia(registerRequest.getResidencia())
-        .telefono(registerRequest.getTelefono())
-        .build();
+                .nombre(registerRequest.getNombre())
+                .apellidos1(registerRequest.getApellidos1())
+                .apellidos2(registerRequest.getApellidos2())
+                .email(registerRequest.getEmail())
+                .nacimiento(registerRequest.getNacimiento())
+                .residencia(registerRequest.getResidencia())
+                .telefono(registerRequest.getTelefono())
+                .build();
     }
 
     public Optional<Doctor> getDoctorByRecomendacion(long id) {
         return this.doctorRepository.getDoctorByRecomendacion(id);
-    } 
+    }
 }

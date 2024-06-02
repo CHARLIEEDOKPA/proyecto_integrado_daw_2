@@ -3,6 +3,9 @@ import { Doctor } from '../doctor';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DoctorService } from '../doctor.service';
 import { NavbarComponent } from "../navbar/navbar.component";
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { JwtService } from '../jwt.service';
 
 @Component({
     selector: 'app-doctor-crear',
@@ -15,8 +18,17 @@ export class DoctorCrearComponent {
   doctor: any;
   formgroup!: FormGroup;
   private doctorService = inject(DoctorService)
-  
+  private toastr = inject(ToastrService)
+  private router = inject(Router)
+  private jwtService = inject(JwtService)
+
   ngOnInit(): void {
+    
+    let rol = this.jwtService.returnObjectFromJSON()?.rol
+    if(rol !== "administrador") {
+      this.router.navigate(['main'])
+    }
+    
     this.formgroup =  new FormGroup({
         nombre: new FormControl('',Validators.required),
         apellidos1: new FormControl('',Validators.required),
@@ -44,7 +56,7 @@ export class DoctorCrearComponent {
             if(typeof reader.result === "string" && (ext === "png" || ext == "jpg" || ext == "jpeg" )) {
                 preview.src = reader.result!;
             } else {
-              alert("Wrong format")
+              this.toastr.error("El formato tiene que ser png, jpeg o jgp")
             }
         }
         
@@ -64,7 +76,6 @@ export class DoctorCrearComponent {
   
   create() {
     let valid = this.formgroup.valid
-    console.log(this.formgroup.value)
     if(valid) {
         let formValue = this.formgroup.value
         let doctor:Doctor = {
@@ -78,16 +89,19 @@ export class DoctorCrearComponent {
             email: formValue.email
   
         }
-        console.log(doctor)
-        this.doctorService.createDoctor(doctor).subscribe(x => alert("Se ha editado"))
+        this.doctorService.createDoctor(doctor).subscribe(() =>{
+          this.toastr.success("Se ha editado")
+          this.router.navigate(['doctor-crud'])
+        } , () => {
+          this.toastr.error("Tuvo un error al crear el doctor, puede que el email ya esta registrado antes")
+        })
   
     } else {
-        alert("Revise los campos restantes por favor")
+      this.toastr.error("Revise los campos restantes por favor")
     }
   }
   
   getUrl(): string {
-    console.log((document.querySelector("img"))?.src!)
     return (document.querySelector("img"))?.src!
   
   }

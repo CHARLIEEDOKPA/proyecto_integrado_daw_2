@@ -1,6 +1,6 @@
 <app-navbar rol="administrador"></app-navbar>
 <div id="mascota-crud">
-    <h1>DUEÑO CRUD</h1>
+    <h1>LISTADO DE DUEÑOS</h1>
     <div id="table-wrapper">
         <table>
             <thead>
@@ -10,6 +10,7 @@
                     <td>Apellidos 1</td>
                     <td>Detalle</td>
                     <td>Editar</td>
+                    <td>Reset</td>
                     <td>Borrar</td>
                 </tr>
             </thead>
@@ -21,6 +22,7 @@
                         <td>{{duenyo.apellidos1}}</td>
                         <td><i class="fa-solid fa-eye" (click)="redirectoTo('duenyo-crud/detalle/' + duenyo.id)"></i></td>
                         <td><i class="fa-solid fa-pencil" (click)="redirectoTo('duenyo-crud/editar/' + duenyo.id)"></i></td>
+                        <td><i class="fa-solid fa-arrows-rotate" (click)="resetContrasenya(duenyo)"></i></td>
                         <td><i class="fa-solid fa-trash" (click)="deleteDuenyo(duenyo.id,$event)"></i></td>
                     </tr>
                 }

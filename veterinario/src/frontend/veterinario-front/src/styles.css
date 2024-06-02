@@ -3,6 +3,11 @@
 @import url(https://fonts.googleapis.com/css?family=Manjari:100,regular,700);
 @import url(https://fonts.googleapis.com/css?family=Rowdies:300,regular,700);
 
+@import 'ngx-toastr/toastr';
+
+#toast-container>* {
+    font-family: 'Manjari';
+  }
 
 body {
     margin: 0 auto;

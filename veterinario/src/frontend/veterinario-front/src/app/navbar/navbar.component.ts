@@ -1,11 +1,11 @@
-import { Incidencia } from './../incidencia';
-import { JwtService } from './../jwt.service';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { RecomendacionService } from '../recomendacion.service';
+import { Credentials } from '../credentials';
 import { IncidenciaService } from '../incidencia.service';
 import { Recomendacion } from '../recomendacion';
-import { Credentials } from '../credentials';
+import { RecomendacionService } from '../recomendacion.service';
+import { Incidencia } from './../incidencia';
+import { JwtService } from './../jwt.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,14 +19,13 @@ export class NavbarComponent implements OnInit {
 
   private recomendacionService = inject(RecomendacionService);
 
-  find(event?:SubmitEvent) {
-    if(event) {
-      event.preventDefault()
+  find(event?: SubmitEvent) {
+    if (event) {
+      event.preventDefault();
     }
     let value = (<HTMLInputElement>document.querySelector('form input')).value;
     if (value.length != 0) {
-      location.replace(`result/${value}`)
-      
+      location.replace(`result/${value}`);
     }
   }
 
@@ -68,7 +67,7 @@ export class NavbarComponent implements OnInit {
     let credenciales = this.jwtService.returnObjectFromJSON();
     if (credenciales && !isExpired(credenciales)) {
       if (
-        (credenciales.rol === 'duenyo' || credenciales.rol === 'doctor') &&
+        (credenciales.rol === 'duenyo' || credenciales.rol === 'doctor' || credenciales.rol === 'subadministrador') &&
         !credenciales.changedPassword
       ) {
         this.router.navigate(['change-password']);
@@ -83,9 +82,10 @@ export class NavbarComponent implements OnInit {
             });
           break;
         case 'doctor':
-          this.incidenciaService
-            .getIncidenciasByDoctor()
-            .subscribe((x) => (this.incidencias = x));
+          this.incidenciaService.getIncidenciasByDoctor().subscribe((x) => {
+            this.incidencias = x.filter((x) => !x.leido);
+            this.lenght = this.incidencias.length;
+          });
           break;
       }
     } else {

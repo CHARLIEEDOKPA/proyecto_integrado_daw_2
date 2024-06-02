@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FindBarComponent } from './find-bar.component';
+import { AddSubadminComponent } from './add-subadmin.component';
 
-describe('FindBarComponent', () => {
-  let component: FindBarComponent;
-  let fixture: ComponentFixture<FindBarComponent>;
+describe('AddSubadminComponent', () => {
+  let component: AddSubadminComponent;
+  let fixture: ComponentFixture<AddSubadminComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FindBarComponent]
+      imports: [AddSubadminComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(FindBarComponent);
+    fixture = TestBed.createComponent(AddSubadminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

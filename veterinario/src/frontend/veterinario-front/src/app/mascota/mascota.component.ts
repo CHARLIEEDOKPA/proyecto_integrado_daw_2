@@ -78,7 +78,7 @@ export class MascotaComponent implements OnInit {
   }
   
   readAndRedirectIncidencia(id: number) {
-      this.incidenciaService.readIncidencia(id).subscribe(x => alert("Se ha leido"))
+      this.incidenciaService.readIncidencia(id).subscribe()
       this.router.navigate(['incidencia',id])
     }
     

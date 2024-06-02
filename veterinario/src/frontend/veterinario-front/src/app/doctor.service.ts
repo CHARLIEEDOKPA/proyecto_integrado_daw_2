@@ -1,14 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Doctor } from './doctor';
+import { HOST } from './global';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class DoctorService {
+  
 
 
-  private URL = 'http://localhost:8080/doctor';
+  private URL = `${HOST}/doctor`;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -18,6 +21,13 @@ export class DoctorService {
 
   public getDoctorByRecomendacion(id: number) {
     return this.httpClient.get<Doctor>(`${this.URL}/recomendacion/${id}`);
+  }
+
+  resetPassword(email: string) {
+    let emailRequest:any = {
+      email : email
+    }
+    return this.httpClient.post(`${HOST}/auth/password/reset`,emailRequest)
   }
 
   getAllDoctors() {
@@ -31,7 +41,7 @@ export class DoctorService {
   }
 
   createDoctor(doctor: Doctor) {
-    return this.httpClient.post(`http://localhost:8080/auth/register/doctor`,doctor)
+    return this.httpClient.post(`${HOST}/auth/register/doctor`,doctor)
   }
 
   deleteDoctor(id: number) {

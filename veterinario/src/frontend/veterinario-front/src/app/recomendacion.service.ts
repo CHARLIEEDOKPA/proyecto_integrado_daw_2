@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RecomendacionRequest } from './recomendacion-request';
-import { Recomendacion } from './recomendacion';
 import { RecomendacionDto } from './recomendacion-dto';
+import { RecomendacionRequest } from './recomendacion-request';
 
 @Injectable({
   providedIn: 'root'

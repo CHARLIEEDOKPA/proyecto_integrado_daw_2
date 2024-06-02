@@ -1,0 +1,15 @@
+<app-navbar rol="administrador"></app-navbar>
+<div id="registrar-subadmin">
+    <h1>Registrar subadministrador</h1>
+    <div id="form-wrapper">
+        <form action="" [formGroup]="formgroup">
+            <div class="input" >
+                <label for="">Email: </label>
+                <input type="text" formControlName="email" >
+            <div id="button">
+                <input type="submit" value="Crear" (click)="create()">
+            </div>
+            </div>
+        </form>
+    </div>
+</div>

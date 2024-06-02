@@ -1,3 +1,4 @@
+import { RecomendacionDto } from './../recomendacion-dto';
 import { IncidenciaDto } from './../incidencia-dto';
 import { Recomendacion } from './../recomendacion';
 import { Component, OnInit, inject } from '@angular/core';
@@ -13,7 +14,6 @@ import { Router } from '@angular/router';
 import { IncidenciaService } from '../incidencia.service';
 import { IncidenciaDuenyo } from '../incidencia-duenyo';
 import { DuenyoService } from '../duenyo.service';
-import { RecomendacionDto } from '../recomendacion-dto';
 import { Duenyo } from '../duenyo';
 
 @Component({
@@ -24,12 +24,15 @@ import { Duenyo } from '../duenyo';
   imports: [NavbarComponent, CommonModule],
 })
 export class NotificacionComponent implements OnInit {
+
   private jwtService = inject(JwtService);
   private recomendacionService = inject(RecomendacionService);
   private incidenciaService = inject(IncidenciaService);
   private doctorService = inject(DoctorService);
   private router = inject(Router);
   private duenyoService = inject(DuenyoService);
+  private privateRecomendaciones !:RecomendacionDto[]
+  private privateIncidencias !:IncidenciaDto[]
   rol!: string;
   incidencias!: IncidenciaDto[];
   recomendaciones!: RecomendacionDto[];
@@ -37,19 +40,24 @@ export class NotificacionComponent implements OnInit {
   incidenciaDuenyoList!: IncidenciaDuenyo[];
 
   ngOnInit(): void {
-    this.recomendacionDoctorList = [];
     let credentials = this.jwtService.returnObjectFromJSON();
     if (credentials != null) {
       this.rol = credentials.rol;
+      if(this.rol === "administrador" || this.rol === "subadministrador") {
+        this.router.navigate(['main'])
+      }
       if (this.rol == 'duenyo') {
+       
         this.recomendacionService
           .getRecomendacionesByDuenyo()
           .subscribe((x) => {
-            this.recomendaciones = x;
+            this.privateRecomendaciones = x
+            this.recomendaciones = this.privateRecomendaciones
           });
       } else {
         this.incidenciaService.getIncidenciasByDoctor().subscribe((x) => {
-          this.incidencias = x;
+          this.privateIncidencias = x
+          this.incidencias = this.privateIncidencias
         });
       }
     } else {
@@ -61,15 +69,30 @@ export class NotificacionComponent implements OnInit {
     return this.doctorService.getDoctorByRecomendacion(id);
   }
 
+  filtrarPorNoLeidos() {
+    if(this.rol === "duenyo"){
+      this.recomendaciones = this.privateRecomendaciones.filter(x => !x.leido)
+    } else {
+      this.incidencias = this.privateIncidencias.filter(x => !x.leido)
+    }
+    }
+
+    filtrarPorLeidos() {
+      if(this.rol === "duenyo"){
+        this.recomendaciones = this.privateRecomendaciones.filter(x => x.leido)
+      } else {
+        this.incidencias = this.privateIncidencias.filter(x => x.leido)
+      }
+      }
+
   getDoctorFullName(doctor: Doctor) {
     return `${doctor.nombre} ${doctor.apellidos1} ${doctor.apellidos2}`;
   }
 
   readAndRedirectViewRecomendacion(id: number) {
     this.recomendacionService
-      .readRecomendacion(id)
-      .subscribe((x) => console.log('Se ha leido'));
-    this.router.navigate(['recomendacion/view/', id]);
+      .readRecomendacion(id).subscribe(x => this.router.navigate(['recomendacion/view/', id]))
+    
   }
 
   checkLeido(x: RecomendacionDto | IncidenciaDto) {
@@ -77,7 +100,8 @@ export class NotificacionComponent implements OnInit {
   }
 
   redirectToIncidencia(id: number) {
-    this.router.navigate(['incidencia',id])
+    this.incidenciaService.readIncidencia(id).subscribe(x => this.router.navigate(['incidencia',id]))
+    
   }
 
   getDuenyoFullName(duenyo: Duenyo) {

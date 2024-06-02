@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { LoginServiceService } from '../login-service.service';
 import { JwtService } from '../jwt.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-change-password',
@@ -14,25 +15,31 @@ import { Router } from '@angular/router';
 export class ChangePasswordComponent implements OnInit{
 
 
-
+  private toastr = inject(ToastrService)
   loginService = inject(LoginServiceService)
   jwtService = inject(JwtService)
   formGroup!:FormGroup
   router = inject(Router)
 
   public doChangePassword() {
-    if(this.formGroup.valid ) {
+    if(this.formGroup.valid) {
       let password = this.formGroup.value;
-      this.loginService.changePassword(password).subscribe(x => {
-        alert("Se ha cambiado la contraseña")
-        this.router.navigate(['/login'])
-      },error => {
-        let status:number = error.status
-        if(status == 403) {
-          console.log(error)
-          alert("Las credenciales esta incorrectas")
-        }
-      } )
+      if(passwordEquals(password)) {
+        this.loginService.changePassword(password).subscribe(x => {
+          this.toastr.success("Se ha cambiado la contraseña")
+          this.router.navigate(['/login'])
+        },error => {
+          let status:number = error.status
+          if(status == 403) {
+            this.toastr.error("Las credenciales esta incorrectas")
+          }
+        } )
+      } else {
+        this.toastr.error("Las contraseñas no coinciden")
+      }
+      
+    } else {
+      this.toastr.error("Los campos tiene que estar rellenos")
     }
 
   }
@@ -40,6 +47,11 @@ export class ChangePasswordComponent implements OnInit{
   ngOnInit(): void {
     let token = this.jwtService.getTokenFromLocalStorage();
     if(token != null) {
+      let credenciales = this.jwtService.returnObjectFromJSON()
+      if(credenciales?.changedPassword) {
+        this.router.navigate(['main'])
+      }
+
       this.formGroup = new FormGroup({
         contrasenya: new FormControl('',  Validators.required),
         con_contrasenya: new FormControl('', Validators.required)

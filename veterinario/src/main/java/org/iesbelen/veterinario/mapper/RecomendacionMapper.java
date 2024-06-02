@@ -1,11 +1,8 @@
 package org.iesbelen.veterinario.mapper;
 
-import java.beans.JavaBean;
-
 import org.iesbelen.veterinario.dto.RecomendacionDTO;
 import org.iesbelen.veterinario.model.Doctor;
 import org.iesbelen.veterinario.model.Recomendacion;
-import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -11,6 +11,12 @@
             @for (publicacion of publicaciones; track publicacion.id) {
                 <img src="{{publicacion.photo_url}}" alt="" (click)="redirectPublicacion(publicacion.id)">
             }
+
+            @if (autor()) {
+                <div id="add" (click)="redirectAddPublicacion()">
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+            }
         </div>
     </div>
     

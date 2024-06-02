@@ -38,7 +38,7 @@ public class Credenciales implements UserDetails{
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 13)
+    @Column(nullable = false, length = 16)
     private String rol;
 
     @JsonIgnore

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RecomendacionDto } from './recomendacion-dto';
 import { RecomendacionRequest } from './recomendacion-request';
+import { HOST } from './global';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class RecomendacionService {
     
 
 
-private URL = `http://127.0.0.1:8080/recomendacion`
+private URL = `${HOST}/recomendacion`
 
   constructor(private httpClient:HttpClient) { }
 

@@ -36,7 +36,7 @@ export class DuenyoEditarComponent {
         apellidos2: new FormControl('',Validators.required),
         nacimiento: new FormControl('',Validators.required),
         residencia: new FormControl('',Validators.required),
-        telefono: new FormControl('',Validators.required),
+        telefono: new FormControl('',[Validators.required, Validators.maxLength(9),Validators.minLength(9)]),
     })
     this.duenyoService.getDuenyoById(this.ID).subscribe(x => this.duenyo = x,() => this.router.navigate(['duenyo-crud']))
   }
@@ -95,10 +95,12 @@ export class DuenyoEditarComponent {
         this.duenyoService.editDuenyo(duenyo,this.ID).subscribe(() => {
           this.toastr.success("Se ha editado")
           this.router.navigate(['duenyo-crud'])
+        },() => {
+          this.toastr.error("Error al editar el dueño")
         })
 
     } else {
-        this.toastr.error("Revise los campos restantes por favor")
+        this.toastr.error("Revise los campos restantes por favorm, ")
     }
   }
 

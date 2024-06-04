@@ -25,7 +25,7 @@
                 <div class="comentario">
                     <h3>{{getFullName(comentario.duenyo)}}</h3>
                     <div class="comentario-content">
-                        <img src="{{comentario.duenyo.foto ? comentario.duenyo.foto :'../../assets/img/user.jpg'}}" alt="" (click)="redirectToPublicaciones(comentario.duenyo.id)">
+                        <img src="{{comentario.duenyo.foto && !comentario.duenyo.foto.startsWith('http') ? comentario.duenyo.foto :'../../assets/img/user.jpg'}}" alt="" (click)="redirectToPublicaciones(comentario.duenyo.id)">
                         <div class="texto">
                             <p>{{comentario.texto}}</p>
                         </div>

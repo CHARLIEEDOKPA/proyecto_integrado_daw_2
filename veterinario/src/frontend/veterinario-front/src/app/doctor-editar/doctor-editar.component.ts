@@ -31,7 +31,7 @@ ngOnInit(): void {
       apellidos2: new FormControl('',Validators.required),
       nacimiento: new FormControl('',Validators.required),
       residencia: new FormControl('',Validators.required),
-      telefono: new FormControl('',Validators.required),
+      telefono: new FormControl('',[Validators.required, Validators.maxLength(9),Validators.minLength(9)]),
   })
   this.doctorService.getDoctorById(this.ID).subscribe(x => this.doctor = x,() => this.router.navigate(['doctor-crud']))
 }
@@ -88,6 +88,8 @@ edit() {
       this.doctorService.editDoctor(doctor,this.ID).subscribe(() => {
         this.toastr.success("Se ha editado")
           this.router.navigate(['doctor-crud'])
+      },() => {
+        this.toastr.error("Error al editar el doctor")
       } )
 
   } else {

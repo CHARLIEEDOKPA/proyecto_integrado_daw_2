@@ -56,7 +56,6 @@ export class IncidenciaReportComponent implements OnInit {
   sendIncidencia() {
     let valid = this.formGroup.valid
         if(valid) {
-          this.toastr.success("funciona")
             let observacion:any | string = this.formGroup.get(['observacion'])?.value
             let incidenciaRequest:IncidenciaRequest = {
                 id_mascota: this.ID,

@@ -35,7 +35,7 @@ export class DoctorCrearComponent {
         apellidos2: new FormControl('',Validators.required),
         nacimiento: new FormControl('',Validators.required),
         residencia: new FormControl('',Validators.required),
-        telefono: new FormControl('',Validators.required),
+        telefono: new FormControl('',[Validators.required, Validators.maxLength(9),Validators.minLength(9)]),
         email: new FormControl('',Validators.email),
     })
   }

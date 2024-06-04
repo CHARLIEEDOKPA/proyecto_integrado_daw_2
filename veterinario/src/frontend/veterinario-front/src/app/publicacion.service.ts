@@ -4,6 +4,7 @@ import { Publicacion } from './publicacion';
 import { PublicacionDto } from './publicacion-dto';
 import { Comentario } from './comentario';
 import { ComentarioDto } from './comentario-dto';
+import { HOST } from './global';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { ComentarioDto } from './comentario-dto';
 export class PublicacionService {
   
   
-  private URL = 'http://localhost:8080/publicacion';
+  private URL = `${HOST}/publicacion`;
   constructor(private httpClient: HttpClient) {}
 
   like(ID: number) {

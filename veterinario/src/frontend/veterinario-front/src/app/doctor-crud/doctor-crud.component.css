@@ -48,6 +48,11 @@ button {
     border: 0;
 }
 
+button:hover {
+    cursor: pointer;
+    transform: scale(0.9);
+}
+
 i:hover {
     transform: scale(0.9);
     cursor: pointer;

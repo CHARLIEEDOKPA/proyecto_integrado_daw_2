@@ -48,7 +48,7 @@ button {
     border: 0;
 }
 
-i:hover {
+button:hover,i:hover {
     cursor: pointer;
     transform: scale(0.9);
 }

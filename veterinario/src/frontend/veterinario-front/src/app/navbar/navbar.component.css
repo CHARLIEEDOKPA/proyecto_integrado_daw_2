@@ -16,6 +16,16 @@ font-size: 90px;
 }
 
 
+#find i {
+    transition: 300ms;
+    }
+
+#find i:hover {
+cursor: pointer;
+transform: scale(0.9);
+}
+
+
 #logo:hover {
     cursor: pointer;
 }

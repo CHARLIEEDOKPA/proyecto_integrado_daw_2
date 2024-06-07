@@ -64,7 +64,12 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let credenciales = this.jwtService.returnObjectFromJSON();
+    let credenciales
+    try {
+      credenciales = this.jwtService.returnObjectFromJSON();
+    } catch (error) {
+      this.jwtService.removeTokenAndRedirectLogin()
+    }
     if (credenciales && !isExpired(credenciales)) {
       if (
         (credenciales.rol === 'duenyo' || credenciales.rol === 'doctor' || credenciales.rol === 'subadministrador') &&

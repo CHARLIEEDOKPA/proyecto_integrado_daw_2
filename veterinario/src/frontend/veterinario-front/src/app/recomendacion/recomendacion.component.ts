@@ -39,7 +39,7 @@ export class RecomendacionComponent implements OnInit {
 
   private citaService = inject(CitaService);
 
-  private jwtService = inject(JwtService)
+  private jwtService = inject(JwtService);
 
   @ViewChild(AddCitaComponent) private addCitaComponent!: AddCitaComponent;
 
@@ -49,9 +49,9 @@ export class RecomendacionComponent implements OnInit {
 
   formgroup!: FormGroup;
   ngOnInit(): void {
-    let rol = this.jwtService.returnObjectFromJSON()?.rol
-    if (rol !== "doctor") {
-      this.router.navigate(['main'])
+    let rol = this.jwtService.returnObjectFromJSON()?.rol;
+    if (rol !== 'doctor') {
+      this.router.navigate(['main']);
     }
     this.mascotaService.getMascota(this.ID).subscribe(
       (x) => (this.mascota = x),
@@ -72,69 +72,57 @@ export class RecomendacionComponent implements OnInit {
   sendRecomendacion() {
     let valid = this.formgroup.valid;
     let date: string;
-    let correctToSend = true;
     let time: Date;
-    if (this.showCita) {
-      this.addCitaComponent.getDate();
-      time = this.addCitaComponent.time;
-      date = this.addCitaComponent.date;
-
-      correctToSend =
-        this.addCitaComponent.time != null && this.checkDateAndTime(time, date);
-    }
-
-    if (valid && correctToSend) {
+    if (valid) {
       let recomendacion = this.formgroup.value;
-
       let recomendacionRequest: RecomendacionRequest = {
         sobre: recomendacion.sobre,
         texto: recomendacion.texto,
         id_mascota: this.ID,
       };
+      if (this.showCita) {
+        this.addCitaComponent.getDate();
+        time = this.addCitaComponent.time;
+        date = this.addCitaComponent.date;
+        let correctToSend = this.addCitaComponent.time != null && this.checkDateAndTime(time, date);
+        if (correctToSend) {
+          let citaRequest = this.buildCitaRequest(time,date);
+          this.citaService.sendCita(citaRequest).subscribe(x => {
+            this.recomendacionService.sendRecomendacion(recomendacionRequest).subscribe(() => {
+              this.toastr.success(`Se ha enviado la recomendación para la mascota ${this.mascota.nombre} y  se ha asignado una cita`)
+              this.router.navigate(['mascota',this.mascota.id])
+            })
+          }, () => {
+            this.toastr.error("Puede que la cita querías asignar ya estaba asignada antes, por favor cambia de hora o de dia")
+          })
+        }
 
-      this.recomendacionService
-        .sendRecomendacion(recomendacionRequest)
-        .subscribe((x) => {
-          if (this.showCita) {
-            let timeString = `${time
-              .getHours()
-              .toString()
-              .padStart(2, '0')}:${time
-              .getMinutes()
-              .toString()
-              .padStart(2, '0')}:00`;
-            let citaRequest: CitaRequest = {
-              date: date.split('/').reverse().join('-'),
-              time: `${timeString}`,
-              id_mascota: this.ID,
-            };
-            this.citaService.sendCita(citaRequest).subscribe(
-              (x) => {
-                this.router.navigate(['mascota', this.ID]);
-                this.toastr.success(
-                  `Se ha enviado la incidencia a la mascota ${this.mascota.nombre} y se añadido una cita`
-                );
-              },
-              (error) => {
-                this.toastr.warning(
-                  'Se ha enviado la cita pero la cita no se puede añadir por un error o que la cita ya esta ocupado'
-                );
-              }
-            );
-          } else {
-            this.toastr.success(
-              `Se ha enviado la incidencia a la mascota ${this.mascota.nombre} y se añadido una cita`
-            );
-          }
-        });
-    } else {
-      if (!correctToSend) {
-        this.toastr.error("Revisa la fecha o el día para añadir una cita")
       } else {
-        this.toastr.error('Los campos deberían estar rellenos o tuvo un error');
+        this.recomendacionService.sendRecomendacion(recomendacionRequest).subscribe(() => {
+          this.toastr.success(`Se ha enviado la recomendación para la mascota ${this.mascota.nombre}`)
+          this.router.navigate(['mascota',this.mascota.id])
+        })
       }
-      
+    } else {
+      this.toastr.error("Compruebe los campos por favor")
     }
+
+  }
+
+  private buildCitaRequest(time: Date, date: string) {
+    let timeString = `${time
+      .getHours()
+      .toString()
+      .padStart(2, '0')}:${time
+        .getMinutes()
+        .toString()
+        .padStart(2, '0')}:00`;
+    let citaRequest: CitaRequest = {
+      date: date.split('/').reverse().join('-'),
+      time: `${timeString}`,
+      id_mascota: this.ID,
+    };
+    return citaRequest;
   }
 
   showDateInputs() {

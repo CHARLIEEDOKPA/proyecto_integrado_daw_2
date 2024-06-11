@@ -30,7 +30,11 @@
             <div class="notif" (click)="redirectToIncidencia(incidencia.id)">
                 <div class="first-col">
                     <p>{{getDuenyoFullName(incidencia.duenyo)}}</p>
-                    <p class="sobre">Nueva incidencia de la mascota del duenyo {{getDoctorFullName(incidencia.duenyo)}}</p>
+                    @if (!incidencia.leido) {
+                        <p class="sobre">Nueva incidencia de la mascota del duenyo {{getDoctorFullName(incidencia.duenyo)}}</p>
+                    } @else {
+                        <p class="sobre">Incidencia vista de la mascota del duenyo {{getDoctorFullName(incidencia.duenyo)}}</p>
+                    }
                 </div>
     
                 <p class="status">{{checkLeido(incidencia)}}</p>

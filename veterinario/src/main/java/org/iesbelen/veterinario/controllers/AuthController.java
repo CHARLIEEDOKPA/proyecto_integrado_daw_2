@@ -9,9 +9,9 @@ import org.iesbelen.veterinario.model.Credenciales;
 import org.iesbelen.veterinario.model.Doctor;
 import org.iesbelen.veterinario.model.Duenyo;
 import org.iesbelen.veterinario.model.UserPassword;
-import org.iesbelen.veterinario.requests.ResetPasswordRequest;
 import org.iesbelen.veterinario.requests.ChangePasswordRequest;
 import org.iesbelen.veterinario.requests.RegisterRequest;
+import org.iesbelen.veterinario.requests.ResetPasswordRequest;
 import org.iesbelen.veterinario.services.CredencialesService;
 import org.iesbelen.veterinario.services.DoctorService;
 import org.iesbelen.veterinario.services.DuenyoService;
@@ -19,15 +19,12 @@ import org.iesbelen.veterinario.services.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @RestController

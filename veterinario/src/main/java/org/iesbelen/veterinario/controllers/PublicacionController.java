@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.iesbelen.veterinario.dto.ComentarioDTO;
 import org.iesbelen.veterinario.dto.PublicacionDTO;
 import org.iesbelen.veterinario.model.Comentario;
+import org.iesbelen.veterinario.model.Duenyo;
 import org.iesbelen.veterinario.model.MeGusta;
 import org.iesbelen.veterinario.model.Publicacion;
 import org.iesbelen.veterinario.requests.ComentarioRequest;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -56,7 +56,7 @@ public class PublicacionController {
         String token = jwtService.getSubsTringToken(bearer);
         String rol = jwtService.getRolFromToken(token);
         if (rol.equals("duenyo")) {
-            Optional opt = duenyoService.getDuenyoById(id);
+            Optional<Duenyo> opt = duenyoService.getDuenyoById(id);
             if (opt.isPresent()) {
                 List<Publicacion> publicaciones = publicacionService.getPublicacionesByDuenyo(id);
                 List<PublicacionDTO> publicacionesDTOs = publicacionService.getListDTO(publicaciones);

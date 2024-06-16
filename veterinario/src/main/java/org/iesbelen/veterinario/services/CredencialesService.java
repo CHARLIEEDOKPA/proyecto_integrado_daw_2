@@ -8,7 +8,6 @@ import org.iesbelen.veterinario.model.Doctor;
 import org.iesbelen.veterinario.model.Duenyo;
 import org.iesbelen.veterinario.model.UserPassword;
 import org.iesbelen.veterinario.repo.CredencialesRepository;
-import org.iesbelen.veterinario.requests.ResetPasswordRequest;
 import org.iesbelen.veterinario.requests.ChangePasswordRequest;
 import org.iesbelen.veterinario.requests.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import jakarta.validation.Valid;
 
 @Service
 public class CredencialesService {

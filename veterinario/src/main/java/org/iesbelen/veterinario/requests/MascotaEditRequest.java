@@ -2,9 +2,6 @@ package org.iesbelen.veterinario.requests;
 
 import java.sql.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.iesbelen.veterinario.dto.PublicacionDTO;
-import org.iesbelen.veterinario.mapper.ComentarioMapper;
 import org.iesbelen.veterinario.mapper.PublicacionMapper;
 import org.iesbelen.veterinario.model.Duenyo;
 import org.iesbelen.veterinario.model.Publicacion;
